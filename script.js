@@ -440,31 +440,25 @@ function cancelarPago() {
 document.getElementById("btn-select-full").onclick = () => prepararTransferencia('total');
 document.getElementById("btn-select-senia").onclick = () => prepararTransferencia('senia');
 
-// Usamos delegación en el document para que encuentre el botón aunque aparezca después
-// ESCUCHADOR GLOBAL DE CLICS (Más robusto para sistemas dinámicos)
+/* ===== CONFIRMACIÓN DE PEDIDO CORREGIDA ===== */
 document.addEventListener("click", async (e) => {
-    // Detectamos el botón por ID, sin importar qué texto tenga adentro (innerHTML)
     if (e.target && e.target.id === "btn-confirm-wsp") {
         
         const fileInput = document.getElementById("comprobanteInput");
         const nombreCliente = document.getElementById("cust-name").value.trim();
         const wspCliente = document.getElementById("cust-wsp").value.trim();
 
-        // 1. VALIDACIÓN DE INGENIERÍA: ¿Hay foto?
         if (!fileInput || fileInput.files.length === 0) {
             showToast("⚠️ Por favor, subí la foto del comprobante.");
             return;
         }
 
-        // 2. CAMBIO DE ESTADO VISUAL
         const btn = e.target;
         const originalText = btn.innerHTML;
         btn.disabled = true;
-        btn.innerHTML = "Procesando pedido... ✨";
-        showToast("Registrando en base de datos... ⏳");
+        btn.innerHTML = "Enviando pedido... 🚀";
 
         try {
-            // 3. CONVERSIÓN A BASE64 (Para el Drive)
             const fotoBase64 = await toBase64(fileInput.files[0]);
 
             const datosParaSheets = {
@@ -477,33 +471,44 @@ document.addEventListener("click", async (e) => {
                 nombreArchivo: `Comprobante_${nombreCliente.replace(/\s+/g, '_')}_${Date.now()}.jpg`
             };
 
-           // 4. ENVÍO ASÍNCRONO A GOOGLE
-            await fetch('https://script.google.com/macros/s/AKfycbw4OmH3gC-soTf8uLbs-oXQpXNeeFl1Nju_2aVkq88Y7d7mKwFmWkjuITFYH5VgDF_5aQ/exec', {
-            method: 'POST',
-            // Eliminamos no-cors para que el body sí se envíe
-             mode: 'cors', 
-             headers: {
-            'Content-Type': 'text/plain;charset=utf-8',
-                     },
-            body: JSON.stringify(datosParaSheets)
-                    });
-            console.log("Pedido guardado en Sheets y Drive ✅");
-
-            // 5. APERTURA DE WHATSAPP
+            // 1. Preparamos el mensaje de WhatsApp por adelantado
             let listaWsp = cart.map(item => `- ${item.name} ($${item.price.toLocaleString('es-AR')})`).join("%0A");
             const mensaje = `¡Hola VITAE! 👋%0A%0A` +
                 `*Nuevo Pedido:*%0A${listaWsp}%0A%0A` +
                 `*Cliente:* ${nombreCliente}%0A` +
                 `*Pago:* ${tipoDePago} ($${montoSeleccionado.toLocaleString('es-AR')})%0A%0A` +
                 `✅ Ya cargué el comprobante en la web. ¡Espero mi pedido!`;
+            
+            const urlWsp = `https://wa.me/5492215111026?text=${mensaje}`;
 
-            window.open(`https://wa.me/2215111026?text=${mensaje}`, "_blank");
+            // 2. ENVÍO A GOOGLE CON TIMEOUT (Si tarda más de 5 seg, abre el wsp igual)
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 segundos de espera máxima
+
+            showToast("Registrando pago... ⏳");
+
+            try {
+                await fetch('https://script.google.com/macros/s/AKfycbw4OmH3gC-soTf8uLbs-oXQpXNeeFl1Nju_2aVkq88Y7d7mKwFmWkjuITFYH5VgDF_5aQ/exec', {
+                    method: 'POST',
+                    mode: 'no-cors', // Usar no-cors suele ser más rápido para Apps Script
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosParaSheets),
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+            } catch (err) {
+                console.log("El registro en Excel tardó demasiado o falló, procediendo a WhatsApp.");
+            }
+
+            // 3. DIRECCIONAMIENTO FORZADO AL WHATSAPP
+            window.location.href = urlWsp;
 
         } catch (error) {
-            console.error("Error en el flujo:", error);
-            showToast("Hubo un error, pero podés enviarlo por WhatsApp igual.");
+            console.error("Error crítico:", error);
+            showToast("Error al procesar. Intentando abrir WhatsApp...");
+            // Si todo falla, intentamos abrir WhatsApp como último recurso
+            window.open(`https://wa.me/5492215111026`, "_blank");
         } finally {
-            // Restauramos el botón por si el usuario vuelve
             btn.disabled = false;
             btn.innerHTML = originalText;
         }
