@@ -1,0 +1,1100 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: system-ui, sans-serif;
+}
+
+body {
+  background: #f5f7f8;
+  color: #1a1a1a;
+  transition: background-color 0.3s ease;
+  display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* HERO */
+.hero {
+  position: relative;
+  height: 70vh;
+  overflow: hidden;
+}
+
+.hero video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.35);
+  color: #112a4a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.hero-overlay h1 {
+  font-size: 2rem;
+}
+
+/* SECCIONES */
+.section {
+  padding: 2rem 1rem;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.section h2 {
+  margin-bottom: 1rem;
+}
+
+/* PRODUCTOS */
+.products {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+.product-card {
+  background: #ffffff;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(17, 42, 74, 0.05);
+  box-shadow: 0 8px 30px rgba(17, 42, 74, 0.12);
+  text-align: center;
+}
+
+.product-card img {
+  width: 100%;
+  aspect-ratio: 1 / 1; /* Mantiene las fotos cuadradas como una polaroid real */
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+
+.img-placeholder {
+  width: 100%;
+  height: 120px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.price {
+  font-weight: bold;
+  margin: .5rem 0;
+}
+
+button {
+  background: #112a4a;
+  color: #fff;
+  border: none;
+  padding: .6rem 1.2rem;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  background: #111;
+  color: #fff;
+  margin-top: auto; /* Empuja el footer siempre hacia abajo */
+    width: 100%;
+}
+
+/* DESKTOP */
+@media (min-width: 768px) {
+  .hero-overlay h1 {
+    font-size: 3rem;
+  }
+
+  .products {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* TOP BAR */
+.top-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0,0,0,.1);
+  background: rgba(2, 28, 62, 0.403);
+  transition: transform 0.3s ease;
+}
+
+/* cuando se oculta */
+.top-bar.hide {
+  transform: translateY(-100%);
+}
+
+.menu-btn,
+.icon-btn {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+/* MENU MOBILE */
+.mobile-menu {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  display: none;
+  flex-direction: column;
+  padding: 1rem;
+  box-shadow: 0 10px 20px rgba(0,0,0,.15);
+  z-index: 999;
+}
+
+.mobile-menu a {
+  padding: .8rem 0;
+  text-decoration: none;
+  color: #111;
+  font-weight: 500;
+}
+
+/* BUSCADOR */
+.search-bar {
+  position: fixed;
+  top: 56px;
+  width: 100%;
+  background: #fff;
+  padding: .7rem 1rem;
+  display: none;
+  z-index: 1001;
+  box-shadow: 0 6px 15px rgba(0,0,0,.15);
+}
+
+.search-bar input {
+  width: 100%;
+  padding: .6rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+}
+
+/* DESKTOP */
+@media (min-width: 768px) {
+  .mobile-menu {
+    width: 300px;
+  }
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  stroke: white;
+  fill: none;
+  stroke-width: 2;
+}
+
+.section h2 {
+  color: #112a4a;
+  text-align: center;
+}
+.section p {
+  text-align: center;
+  line-height: 1.6;
+}
+
+.product-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.product-link .product-card {
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.product-link .product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0,0,0,.15);
+}
+
+.product-view{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.7);
+display:none;
+justify-content:center;
+align-items:center;
+z-index:2000;
+}
+
+.product-view-content{
+background:#fdfdfd;
+border-radius:14px;
+max-width:600px;
+width:95%;
+max-height:90vh;
+padding-top: 50px;
+position:relative;
+display:flex;
+flex-direction:column;
+overflow-y: auto;
+}
+
+.product-view-content img{
+width:100%;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+.close-view{
+position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 2100; /* Siempre por encima de la imagen */
+    background: rgba(255, 255, 255, 0.8); /* Fondo semitransparente para que se vea sobre cualquier foto */
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+cursor:pointer;
+font-weight:bold;
+color:#112a4a;
+}
+
+.close-view:hover{
+color:red;
+}
+
+.buy-btn{
+display:inline-block;
+background:#112a4a;
+color:white;
+padding:10px 20px;
+border-radius:20px;
+text-decoration:none;
+margin-top:15px;
+}
+
+.product-scroll{
+overflow:auto;
+padding:40px 30px 30px 30px;
+max-height:85vh;
+overscroll-behavior: contain;
+}
+
+.cart{
+position:fixed;
+bottom:20px;
+right:20px;
+width:260px;
+
+background:white;
+border-radius:14px;
+
+box-shadow:0 10px 30px rgba(0,0,0,.2);
+
+padding:15px;
+z-index:3000;
+}
+
+.cart h3{
+margin-bottom:10px;
+}
+
+#cartItems{
+max-height:150px;
+overflow:auto;
+margin-bottom:10px;
+}
+
+.cart-total{
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.cart-view {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 3000;
+    /* Bloquea el scroll del fondo mientras el carrito está abierto */
+    overflow: hidden; 
+}
+
+.cart-content {
+    background: white;
+    padding: 30px;
+    border-radius: 14px;
+    width: 90%;
+    max-width: 450px;
+    /* Altura máxima para que no se salga de la pantalla */
+    max-height: 85vh; 
+    /* Permite que el contenido se deslice dentro del recuadro */
+    overflow-y: auto; 
+    position: relative;
+    /* Mejora el scroll en celulares */
+    -webkit-overflow-scrolling: touch; 
+}
+
+.close-cart{
+position:absolute;
+top:15px;
+right:20px;
+font-size:26px;
+cursor:pointer;
+}
+
+#cartItems div{
+display:flex;
+justify-content:space-between;
+padding:8px 0;
+border-bottom:1px solid #eee;
+}
+
+.cart-total{
+margin-top:15px;
+font-weight:bold;
+}
+
+.cart-summary {
+    margin: 20px 0;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+
+.senia-text {
+    color: #112a4a;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+/* 1. SELECCIÓN DE PRECISIÓN: Solo afecta a las imágenes dentro de #cartItems */
+#cartItems .cart-item-row .cart-item-image {
+    /* El tamaño Máximo que puede tomar la imagen (Ancho) */
+    max-width: 55px !important; /* Ajustá este número si la querés más chica */
+    
+    /* Mantenemos la proporción (Si es cuadrada, queda cuadrada) */
+    height: 55px !important; 
+    
+    /* LA REGLA DE ORO DE SISTEMAS: */
+    /* Evita que Flexbox achique o estire la imagen si el texto es muy largo */
+    flex-shrink: 0 !important; 
+    
+    /* Estilo visual (Bordes redondeados, como en tu diseño) */
+    border-radius: 8px !important;
+    object-fit: cover !important; /* Asegura que la foto no se deforme */
+    
+    /* Espaciado de seguridad con el texto */
+    margin-right: 15px !important;
+}
+
+.cart-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.eliminar-btn {
+    padding: 0 5px;
+    line-height: 1;
+    font-weight: bold;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+.eliminar-btn:hover {
+    opacity: 1;
+}
+
+#magnet-price-hint {
+    display: block !important;
+    font-size: 0.85rem;
+    color: #888; /* Un gris suave */
+    margin-top: 10px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.buy-btn.secondary {
+    background-color: #ffffff;
+    color: #112a4a;
+    border: 2px solid #112a4a;
+}
+
+.buy-btn.secondary:hover {
+    background-color: #f0f4f8;
+}
+
+/* El contenido principal crece para empujar al footer al fondo */
+#home-content, .content-section {
+    flex: 1;
+}
+
+.content-section {
+    padding-top: 80px; /* 56px de la barra + un poco de aire */
+    min-height: 80vh;  /* Para que el footer no suba demasiado */
+}
+
+/* Estilos para los iconos del menú */
+.menu-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px; /* Espacio entre icono y texto */
+    stroke: #112a4a;    /* Tu azul marino */
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vertical-align: middle;
+}
+
+/* Ajuste del enlace para alinear contenido */
+.mobile-menu a {
+    display: flex;
+    align-items: center;
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background 0.2s;
+}
+
+.mobile-menu a:hover {
+    background: #f9f9f9;
+}
+
+.icon-btn { 
+  position: relative;
+  display: flex;
+    align-items: center;
+    justify-content: center; 
+}
+
+#cart-count {
+   position: absolute;
+    /* Coordenadas para que flote en la esquina */
+    top: -2px; 
+    right: -2px;
+    background-color: transparent; 
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+    /* Quitamos el ancho fijo para que no ocupe espacio si es invisible */
+    width: auto;
+    height: auto;
+    display: none; 
+    pointer-events: none;
+}
+
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff; /* Fondo limpio */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000; /* Por encima de TODO */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-content {
+    text-align: center;
+}
+
+.loader-logo {
+    width: 80px; /* Ajustá el tamaño a tu gusto */
+    margin-bottom: 20px;
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+.loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #112a4a; /* Tu azul marino */
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+/* Animaciones */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.icons { 
+    display: flex;
+    align-items: center; /* Alinea verticalmente al centro */
+    gap: 15px; /* Espacio horizontal entre la lupa y el carrito */
+}
+
+/* Asegurate de que los botones no tengan márgenes raros */
+.icon-btn {
+    margin: 0;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wsp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    z-index: 5000; /* Por encima de todo, incluso del carrito */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    animation: slideIn 0.5s ease-out;
+}
+
+.wsp-float:hover {
+    transform: scale(1.1);
+    background-color: #128c7e;
+    box-shadow: 2px 5px 15px rgba(0,0,0,0.3);
+}
+
+.wsp-icon {
+    width: 35px;
+    height: 35px;
+    fill: white;
+}
+
+@keyframes slideIn {
+    from { transform: translateX(100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Ajuste para que no tape botones importantes en móvil */
+@media (max-width: 768px) {
+    .wsp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 15px;
+        right: 15px;
+    }
+    .wsp-icon {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+.search-suggestions {
+    background: white;
+    max-height: 200px;
+    overflow-y: auto;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    display: none; /* Se muestra solo cuando hay texto */
+}
+
+.suggestion-item {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.2s;
+}
+
+.suggestion-item:hover {
+    background: #f0f4f8;
+}
+
+.suggestion-item img {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Animación de la onda suave */
+@keyframes cart-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 255, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
+}
+
+/* Clase que aplicaremos cuando haya productos */
+.cart-has-items {
+    animation: cart-pulse 2s infinite;
+    border-radius: 50%; /* Para que la onda sea circular */
+}
+
+.vitae-footer {
+  background-color: #112a4a; /* Tu color institucional */
+  padding: 30px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.footer-text {
+  color: #ffffff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.payment-grid {
+  display: flex;
+  gap: 15px; /* Espacio entre los bloques pequeños */
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.payment-card {
+  background-color: rgba(255, 255, 255, 0.05); /* Bloque muy sutil */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  width: 70px;  /* Tamaño pequeño de los bloques */
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s ease;
+  overflow: hidden;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.payment-card:hover {
+  transform: translateY(-3px);
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.payment-icon {
+  /* Forzamos a que la imagen respete el espacio interno */
+  max-width: 100%;
+  max-height: 100%;
+  
+  /* Evita que se estire o se vea deforme */
+  object-fit: contain; 
+}
+
+/* Estilo para la lista de la Guía de Compra */
+.guia-lista {
+    list-style: none;
+    counter-reset: paso; /* Crea un contador automático */
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 0;
+}
+
+.guia-lista li {
+    counter-increment: paso; /* Incrementa el número en cada item */
+    position: relative;
+    padding-left: 55px;
+    margin-bottom: 25px;
+    text-align: left;
+    line-height: 1.6;
+}
+
+/* El círculo con el número */
+.guia-lista li::before {
+    content: counter(paso);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 35px;
+    height: 35px;
+    background-color: #112a4a; /* Tu azul institucional */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.guia-lista li strong {
+    color: #112a4a;
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+}
+
+/* Espaciado en la ventana emergente (Modal) */
+#viewTitle {
+    margin-bottom: 15px; /* Ajusta el espacio a tu gusto */
+    color: #112a4a;
+}
+
+#viewPrice {
+    color:#000000 !important;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Descripción dentro del visor de producto */
+#viewDescription {
+    color: #000000 !important; 
+    font-weight: 500;          /* Le damos un pelín más de cuerpo a la letra */
+    line-height: 1.6;          /* Mejoramos el espacio entre líneas para que no se amontone */
+    font-size: 0.95rem;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Este es el fondo gris que contiene la polaroid */
+#simulationContainer {
+    background-color: #becee4 !important;
+    min-height: 700px;
+    width: 100%;
+    border-radius: 10px;
+    padding: 30px;
+    min-height: 350px; /* Evita que se colapse como una línea */
+    justify-content: center;
+    align-items: center;
+}
+
+#polaroidPreview {
+    /* 1. Estructura Base */
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin: 0 auto;
+    background-color: #ffffff !important;
+    box-sizing: border-box;
+    position: relative;
+    overflow: visible !important;
+    align-items: center;
+    width: 220px;
+    /* 2. Proporción*/
+    padding-top: 20px;
+    /* 3. El Marco Blanco */
+    padding: 12px;
+    /* 4. Estética */
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+    border-radius: 2px; /* Un toque casi recto para que parezca papel */
+    transition: all 0.3s ease;
+    z-index: 10;
+    height: auto !important; /* Esto es clave para que no se deforme al cambiar la foto */
+}
+
+#basePolaroid {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1;
+}
+
+#borderLayer {
+    position: absolute;
+    inset: 0; /* Esto reemplaza top, left, bottom, right: 0 */
+    z-index: 1;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: contain; /* Obliga al diseño a cubrir todo el rectángulo */
+    background-position: center;
+    background-repeat: no-repeat;
+    pointer-events: none;
+    mix-blend-mode: multiply; /* Genial para que los bordes se integren */
+}
+
+/* Los cuadraditos de selección */
+.border-thumb {
+    width: 50px;
+    height: 50px;
+    border-radius: 8px;
+    border: 2px solid #eee;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.2s ease;
+}
+
+.border-thumb:hover {
+    transform: scale(1.1);
+    border-color: #112a4a;
+}
+
+.border-thumb.selected {
+    border-color: #112a4a;
+    box-shadow: 0 0 5px rgba(17, 42, 74, 0.4);
+}
+
+#border-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    padding: 10px;
+}
+
+#photoSpace {
+    width: 100%;
+    overflow: hidden;
+    background-color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 2; /* Por encima del diseño */
+    border: 1px solid #f0f0f0;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 1) !important; /* Sombra interna para simular el borde del papel */
+    pointer-events: none;
+    margin: 0;
+    aspect-ratio: 3/4;
+}
+
+/* 2. ESTA ES LA CLAVE: Cuando es STRIP, forzamos transparencia */
+#photoSpace.grid-strips {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 15px !important; /* Aquí se verá el diseño amarillo */
+    background-color: transparent !important; /* MATAMOS EL BLANCO */
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+}
+
+#photoSpace img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* CAMBIO CLAVE: Evita el zoom. Si la imagen es distinta, muestra bordes pero no recorta */
+}
+ 
+/* Contenedor del slider en el visor */
+.slider-container {
+    position: relative;
+    overflow: hidden; /* Vital para que la imagen que sale no se vea fuera del cuadro */
+    width: 100%;
+    border-radius: 10px;
+}
+
+#viewImage {
+    max-height: 50vh; /* La imagen solo puede ocupar la mitad del alto del celular */
+    width: auto;      /* Mantiene la proporción */
+    max-width: 100%;  /* No se sale de los costados */
+    margin: 0 auto 20px; /* Centrada y con espacio abajo */
+    object-fit: contain; /* Evita que se estire */
+    display: block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+}
+
+/* Clases de animación */
+.slide-out-left { transform: translateX(-100%); opacity: 0; }
+.slide-out-right { transform: translateX(100%); opacity: 0; }
+.slide-in-right { transform: translateX(100%); }
+.slide-in-left { transform: translateX(-100%); }
+.slide-active { transform: translateX(0); opacity: 1; }
+
+/* 1. La sección completa */
+.products-section {
+    display: block !important;
+    width: 100% !important;
+    /* Esto crea el espacio real entre el producto de arriba y el título */
+    padding-top: 100px !important; 
+    margin-top: 50px !important;
+    border-top: 1px solid #eee !important;
+}
+
+/* 2. El título centrado */
+.section-title {
+    display: block !important;
+    text-align: center !important;
+    margin: 0 auto 40px auto !important; /* 40px de espacio hacia los productos de abajo */
+    width: 100% !important;
+}
+
+/* 3. La grilla de productos */
+.product-grid {
+    display: grid !important;
+    /* Esto evita que las tarjetas se peguen a los bordes en el celular */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important;
+    gap: 30px !important;
+    justify-content: center !important;
+    padding: 0 20px !important;
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+}
+
+.section-title::after {
+    content: ""; /* Crea un elemento vacío */
+    display: block;
+    width: 60px; /* Largo de la línea */
+    height: 3px;  /* Grosor de la línea */
+    background-color: #112a4a; /* Tu azul */
+    margin: 10px auto 0; /* La centra y le da espacio arriba */
+    border-radius: 2px; /* Redondea las puntas para que sea más suave */
+}
+
+/* AJUSTES ESPECÍFICOS PARA CELULARES */
+@media (max-width: 768px) {
+    .products-section {
+        /* Aquí le damos el aire real para que "respiren" los combos */
+        padding-top: 100px !important; 
+        margin-top: 80px !important;
+        margin-bottom: 40px;
+    }
+}
+
+.magnet-toggle {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    background: white;
+    color: #666;
+}
+
+.magnet-toggle.active-yes {
+    border-color: #28a745;
+    background-color: #e8f5e9;
+    color: #28a745;
+    transform: scale(1.1);
+}
+
+.magnet-toggle.active-no {
+    border-color: #112a4a;
+    background-color: #f0f4f8;
+    color: #112a4a;
+    transform: scale(1.1);
+}
+
+/* Clase para el botón de layout seleccionado */
+.layout-btn.selected {
+    background-color: #112a4a !important; /* Tu azul fuerte institucional */
+    color: #ffffff !important;           /* Texto blanco para que se lea bien */
+    border-color: #112a4a !important;
+    transform: scale(1.05);               /* Un pequeño efecto de resaltado */
+}
+
+/* Estilo base para los botones no seleccionados */
+.layout-btn {
+    background-color: #f0f4f8; 
+    color: #112a4a;
+    border: 1px solid #d1e0f0;
+    transition: all 0.2s ease;
+}
+
+.about-us-banner {
+    width: 100%;
+    max-width: 900px; /* Para que en PC no se vea exageradamente grande */
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.responsive-banner {
+    width: 100%;
+    height: auto; /* Mantiene la proporción del diseño de Canva */
+    border-radius: 15px; /* Le da un toque suave en las esquinas */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* Una sombra sutil para que resalte */
+}
+
+/* CLASE FORZADA PARA LAS TIRAS DE STRIPS */
+/* styles.css */
+
+.grid-strips {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    /* Este gap es el que deja ver el diseño amarillo */
+    gap: 15px !important; 
+    width: 100% !important;
+    
+    /* ELIMINAMOS EL BLOQUEO: Sin fondo y sin altura fija */
+    background: transparent !important;
+    background-color: transparent !important;
+    height: auto !important;
+    aspect-ratio: auto !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.mini-photo-slot {
+    width: 100% !important;
+    background-color: white !important; /* El blanco SOLO acá */
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    box-sizing: border-box !important;
+   box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+#previewComprobante {
+    transition: transform 0.3s ease;
+    max-height: 200px; /* Evita que el modal se haga gigante */
+    object-fit: contain;
+}
+#previewComprobante:hover {
+    transform: scale(1.05); /* Efecto de lupa al pasar el mouse */
+}

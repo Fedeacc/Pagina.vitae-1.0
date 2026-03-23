@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>VITAE.LP - Recuerdos Impresos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="imagenes/favicon.png" type="image/png">
+</head>
+
+
+<body>
+
+<div id="loader">
+    <div class="loader-content">
+        <img src="imagenes/favicon.png" alt="Logo VITAE" class="loader-logo">
+        <div class="loader-spinner"></div>
+    </div>
+</div>
+
+<div class="top-bar">
+    <button class="menu-btn" id="menuBtn">☰</button>
+    <div class="logo">VITAE.LP</div>
+    <div class="icons">
+        <button class="icon-btn" id="searchIcon">
+            <svg viewBox="0 0 24 24" class="icon">
+                <circle cx="11" cy="11" r="7"/>
+                <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+            </svg>
+        </button>
+        <button class="icon-btn" id="cartIcon">
+            <svg viewBox="0 0 24 24" class="icon">
+                <path d="M6 6h15l-2 9H7z"/>
+                <circle cx="9" cy="20" r="1"/>
+                <circle cx="18" cy="20" r="1"/>
+            </svg>
+          <span id="cart-count">0</span>
+        </button>
+    </div>
+</div>
+
+<nav class="mobile-menu" id="mobileMenu">
+    <a href="#" class="nav-link" data-section="inicio" onclick="closeMenu()">
+        <svg viewBox="0 0 24 24" class="menu-icon"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Inicio
+    </a>
+
+    <a href="#seccion-combos" class="nav-link" data-section="inicio" onclick="closeMenu()">
+        <svg viewBox="0 0 24 24" class="menu-icon" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 12 20 22 4 22 4 12"></polyline>
+            <rect x="2" y="7" width="20" height="5"></rect>
+            <line x1="12" y1="22" x2="12" y2="7"></line>
+            <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+            <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+        </svg>
+        Combos Especiales
+    </a>
+
+    <a href="#cuadernos" class="nav-link" data-section="cuadernos" onclick="closeMenu()">
+    <svg viewBox="0 0 24 24" class="menu-icon" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+        <line x1="8" y1="6" x2="16" y2="6"></line>
+        <line x1="8" y1="10" x2="16" y2="10"></line>
+    </svg>
+       Cuadernos Personalizados
+    </a>
+
+    <a href="#" class="nav-link" data-section="quienes-somos" onclick="closeMenu()">
+        <svg viewBox="0 0 24 24" class="menu-icon"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        ¿Quiénes somos?
+    </a>
+
+    <a href="#" class="nav-link" data-section="envios" onclick="closeMenu()">
+        <svg viewBox="0 0 24 24" class="menu-icon"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        Envíos y Entregas
+    </a>
+
+    <a href="#" class="nav-link" data-section="guia-compra" onclick="closeMenu()">
+        <svg viewBox="0 0 24 24" class="menu-icon"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+        Guía de Compra
+    </a>
+</nav>
+
+<div class="search-bar" id="searchBar">
+    <input type="text" id="searchInput" placeholder="Buscar productos..." />
+    <div id="searchSuggestions" class="search-suggestions"></div>
+</div>
+
+<div id="home-content">
+    
+    <header class="hero">
+        <video autoplay muted loop playsinline>
+            <source src="videos/Video_De_Mesa_Vintage_Con_Polaroids.mp4" type="video/mp4">
+        </video>
+        <div class="hero-overlay">
+            <h1>VITAE.LP</h1>
+            <p>Imprimimos tus momentos favoritos</p>
+        </div>
+    </header>
+
+    <section class="section">
+        <h2>¡Bienvenid@! 📸</h2>
+        <p>
+      Acá imprimimos tus recuerdos favoritos para que los tengas siempre cerca.
+      Los recuerdos más lindos merecen estar en papel 🤍
+        </p>
+    </section>
+
+    <section class="section">
+        <h2>Productos</h2>
+        <div class="products">
+            <div class="product-card"
+               data-name="Polaroid Común"
+               data-borders="Sin Diseño:imagenes/sin diseño.png:imagenes/sin diseño.png, Cuadros verde:imagenes/cuadrados verde.png:imagenes/COMUN 1.png, Puntos:imagenes/puntos.png:imagenes/COMUN 2.png, Corazones 1:imagenes/corazones 1.png:imagenes/COMUN 3.png, Manchas Negras:imagenes/vaca.png:imagenes/COMUN 4.png, Cuadros Naranja:imagenes/cuadrados naranja.png:imagenes/COMUN 5.png, Manchas Colores:imagenes/manchas.png:imagenes/COMUN 6.png, Asteriscos:imagenes/asteriscos.png:imagenes/COMUN 7.png, Estrellas:imagenes/estrellas.png:imagenes/COMUN 8.png,corazones 2:imagenes/corazones 2.png:imagenes/COMUN 9.png, Arcoiris:imagenes/arcoiris.png:imagenes/COMUN 10.png"
+                data-variants="5 unidades:3000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,15 unidades:6500:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg,30 unidades:10000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+                data-price="$3.000"
+                data-description="tamaño 8,5cm x 5,5cm.<br>Impresión en papel fotográfico de alta calidad (200gr).<br><br>antes de realizar tu pedido te recomendamos leer nuestra guia de compra para conocer todos los detalles."
+                data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <h3>Polaroid Común</h3>
+                <p class="price">$3.000</p>
+                <button class="view-product">Conocer Más</button>
+            </div>
+
+            <div class="product-card"
+                data-name="Polaroid Extralarge"
+                data-borders="Sin Diseño:imagenes/sin diseño.png:imagenes/sin diseño.png,  Cuadros Naranja:imagenes/cuadrados naranja.png:imagenes/EXTRALARGE 1.png, Estrellas Colores:imagenes/estrellas colores.png:imagenes/EXTRALARGE 2.png, Manchas Negras:imagenes/vaca.png:imagenes/EXTRALARGE 3.png, Corazones 1:imagenes/corazones 1.png:imagenes/EXTRALARGE 4.png, Corazones 2:imagenes/corazones 2.png:imagenes/EXTRALARGE 5.png, Arcoiris:imagenes/arcoiris.png:imagenes/EXTRALARGE 6.png"
+                 data-variants="3 unidades:3000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41.jpeg,5 unidades:4000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg,10 unidades:6500:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+                data-price="$3.000"
+                data-description="tamaño 12.5cm x 8cm.<br>Impresión en papel fotográfico de alta calidad (200gr).<br><br>antes de realizar tu pedido te recomendamos leer nuestra guia de compra para conocer todos los detalles."
+                data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg">
+                <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg">
+                <h3>Polaroid Extralarge</h3>
+                <p class="price">$3.000</p>
+                <button class="view-product">Conocer Más</button>
+            </div>
+
+            <div class="product-card"
+                data-name="Polaroid Strips"
+                data-borders="Sin Diseño:imagenes/sin diseño.png:imagenes/sin diseño.png,  Cuadros Amarillo:imagenes/cuadrados amarillo.png:imagenes/STRIPS 1.png, Puntos:imagenes/puntos.png:imagenes/STRIPS 2.png, Manchas Negras:imagenes/vaca.png:imagenes/STRIPS 3.png, Corazones 1:imagenes/corazones 1.png:imagenes/STRIPS 4.png, Corazones 2:imagenes/corazones 2.png:imagenes/STRIPS 5.png, Arcoiris:imagenes/arcoiris.png:imagenes/STRIPS 6.png"
+                 data-variants="4 unidades:2500:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,8 unidades:4000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg,12 unidades:6000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+                 data-layout="3 imágenes, 4 imágenes"
+                 data-price="$2.500"  
+                data-description="tamaño 13cm x 4cm.<br>Impresión en papel fotográfico de alta calidad (200gr).<br><br>antes de realizar tu pedido te recomendamos leer nuestra guia de compra para conocer todos los detalles.<br><br>podemos poner 3 o 4 imágenes"
+                data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <h3>Polaroid strips</h3>
+                <p class="price">$2.500</p>
+                <button class="view-product">Conocer Más</button>
+            </div>
+
+             <div class="product-card"
+                data-name="Polaroid Cuadrada"
+                data-borders="Sin Diseño:imagenes/sin diseño.png:imagenes/sin diseño.png, Cuadros verde:imagenes/cuadrados verde.png:imagenes/CUADRADO 1.png, Frutillas:imagenes/frutillas.png:imagenes/CUADRADO 2.png, Manchas Negras:imagenes/vaca.png:imagenes/CUADRADO 3.png, Corazones 1:imagenes/corazones 1.png:imagenes/CUADRADO 4.png, Corazones 2:imagenes/corazones 2.png:imagenes/CUADRADO 5.png, Estrellas:imagenes/estrellas.png:imagenes/CUADRADO 6.png, Arcoiris:imagenes/arcoiris.png:imagenes/CUADRADO 7.png"
+                 data-variants="6 unidades:4000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,10 unidades:6000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg,16 unidades:8000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+                data-price="$4.000"  
+                data-description="tamaño 10cm x 8cm.<br>Impresión en papel fotográfico de alta calidad (200gr).<br><br>antes de realizar tu pedido te recomendamos leer nuestra guia de compra para conocer todos los detalles."
+                data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <h3>Polaroid Cuadrada</h3>
+                <p class="price">$4.000</p>
+                <button class="view-product">Conocer Más</button>
+            </div>
+
+             <div class="product-card"
+                data-name="Foto básica"
+                 data-variants="4 unidades:3500:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,10 unidades:7000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg,16 unidades:10000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+                data-price="$3.500"  
+                data-description="tamaño 13cm x 9cm.<br>Impresión en papel fotográfico de alta calidad (200gr).<br><br>antes de realizar tu pedido te recomendamos leer nuestra guia de compra para conocer todos los detalles."
+                data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <h3>Foto básica</h3>
+                <p class="price">$3.500</p>
+                <button class="view-product">Conocer Más</button>
+            </div>
+
+             <div class="product-card"
+                data-name="Foto Mediana"
+                 data-variants="4 unidades:4000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,10 unidades:8000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg,16 unidades:12000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+                data-price="$4.000"  
+                data-description="tamaño 15cm x 10cm.<br>Impresión en papel fotográfico de alta calidad (200gr).<br><br>antes de realizar tu pedido te recomendamos leer nuestra guia de compra para conocer todos los detalles."
+                data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <h3>Foto Mediana</h3>
+                <p class="price">$4.000</p>
+                <button class="view-product">Conocer Más</button>
+            </div>
+
+             <div class="product-card"
+                data-name="Foto Grande"
+                 data-variants="2 unidades:3500:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,5 unidades:7000:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (4).jpeg,8 unidades:11500:imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+                data-price="$3.500"  
+                data-description="tamaño 18cm x 13cm.<br>Impresión en papel fotográfico de alta calidad (200gr).<br><br>antes de realizar tu pedido te recomendamos leer nuestra guia de compra para conocer todos los detalles."
+                data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <img src=" imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+                <h3>Foto Grande</h3>
+                <p class="price">$3.500</p>
+                <button class="view-product">Conocer Más</button>
+            </div>
+         </div>
+    </section>
+
+    <section id="seccion-combos" class="products-section">
+       <h2 class="section-title">COMBOS ESPECIALES</h2>
+       <div class="product-grid">
+
+            <div class="product-card" 
+             data-name="Combo Detalle" 
+             data-price="$7.500" 
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-description="INCLUYE:<br>• 5 polaroids Comunes (5,5cm x 8,5cm).<br>• 4 Polaroids Strips (4,5cm x 14,5cm).<br>• 2 Fotos Grandes(13cm x 18cm).<br><br>Impresión en papel fotográfico de alta calidad (200gr).">
+            
+             <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Combo Detalle">
+             <h3>Combo Detalle</h3>
+             <p class="price">$7.500</p>
+             <button class="view-product">Conocer Más</button>
+            </div>
+           
+            <div class="product-card" 
+             data-name="Combo Clásico" 
+             data-price="$8.500" 
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-description="INCLUYE:<br>• 5 polaroids Comunes (5,5cm x 8,5cm).<br>• 4 Polaroids Extralarge (8cm x 12,5cm).<br>• 4 Fotos Básicas (9cm x 13cm).<br><br>Impresión en papel fotográfico de alta calidad (200gr).">
+            
+             <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Combo Clásico">
+             <h3>Combo Clásico</h3>
+             <p class="price">$8.500</p>
+             <button class="view-product">Conocer Más</button>
+            </div>
+
+            <div class="product-card" 
+             data-name="Combo Galería" 
+             data-price="$9.500" 
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-description="INCLUYE:<br>• 4 Fotos Básicas (9cm x 13cm).<br>• 4 Fotos Medianas (10cm x 14,5cm).<br>• 2 Fotos Grandes (13cm x 18cm).<br><br>Impresión en papel fotográfico de alta calidad (200gr).">
+            
+             <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Combo Galería">
+             <h3>Combo Galería</h3>
+             <p class="price">$9.500</p>
+             <button class="view-product">Conocer Más</button>
+            </div>
+
+            <div class="product-card" 
+             data-name="Combo Amistad" 
+             data-price="$10.000" 
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-description="INCLUYE:<br>• 10 polaroids Cuadradas (8cm x 10cm).<br>• 4 Polaroids Extralarge (12,5cm x 8cm).<br>• 4 Fotos Básicas (9cm x 13cm).<br><br>Impresión en papel fotográfico de alta calidad (200gr).">
+            
+             <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Combo Amistad">
+             <h3>Combo Amistad</h3>
+             <p class="price">$10.000</p>
+             <button class="view-product">Conocer Más</button>
+            </div>
+
+              <div class="product-card" 
+             data-name="Combo Decorativo" 
+             data-price="$12.500" 
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-description="INCLUYE:<br>• 15 polaroids Comunes (8,5cm x 5,5cm).<br>• 4 Polaroids Cuadradas (8cm x 10cm).<br>• 4 Fotos Medianas (10cm x 14,5cm).<br><br>Impresión en papel fotográfico de alta calidad (200gr).">
+            
+             <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Combo Decorativo">
+             <h3>Combo Decorativo</h3>
+             <p class="price">$12.500</p>
+             <button class="view-product">Conocer Más</button>
+            </div>
+
+              <div class="product-card" 
+             data-name="Combo Cumpleaños" 
+             data-price="$16.000" 
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-description="INCLUYE:<br>• 8 Fotos Básicas (9cm x 13cm).<br>• 6 Polaroids Cuadradas (8cm x 10cm).<br>• 6 Polaroids Extralarge (8cm x 12,5cm).<br>• 4 Fotos Medianas (10cm x 14,5cm).<br><br>Impresión en papel fotográfico de alta calidad (200gr).">
+            
+             <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Combo Cumpleaños">
+             <h3>Combo Cumpleaños</h3>
+             <p class="price">$16.000</p>
+             <button class="view-product">Conocer Más</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="cuadernos" class="products-section">
+     <h2 class="section-title">Cuadernos Personalizados</h2>
+     <div class="product-grid">
+        
+        <div class="product-card" 
+             data-name="Cuaderno Minimalista" 
+             data-price="$23.000"
+             data-description="Tamaño A5 (21x15cm).<br>INCLUYE:<br>• 9 polaroids Cuadradas.<br>• Un sobre para carta.<br>• Esquineros Negros.<br>• 8 páginas Negras de 250gr.<br>• Tapas negras rígidas de 300gr.<br><br>Un álbum pensado para guardar esos momentos que no querés olvidar.<br>Diseño minimalista, fondo negro que resalta cada foto.<br><strong>CALIDAD PREMIUM</strong>"
+             data-image="imagenes/whatsapp image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-gallery="imagenes/whatsapp image 2026-02-02 at 19.01.41 (3).jpeg">
+            <img src="imagenes/whatsapp image 2026-02-02 at 19.01.41 (3).jpeg" alt="Cuaderno Minimalista">
+            <h3>Cuaderno Minimalista</h3>
+            <p class="price">$23.000</p>
+            <button class="view-product">Conocer Más</button>
+        </div>
+
+        <div class="product-card" 
+             data-name="Cuaderno Collage" 
+             data-price="$25.000"
+             data-description="Tamaño A5 (21x15cm).<br>INCLUYE:<br>• 10 polaroids Comunes.<br>•4 polaroids Extralarge.<br>• Un sobre para carta.<br>• Esquineros Negros.<br>• Detalles creativos hechos a mano.<br>• 8 páginas Negras de 250gr.<br>• Tapas negras rígidas de 300gr.<br><br>Un álbum único donde tus fotos cobran vida.
+Diseñado con estilo collage, combinando fotos tipo polaroid, detalles decorativos y frases que hacen que cada página cuente una historia.<br><strong>CALIDAD PREMIUM</strong>"
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-gallery="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+            <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Cuaderno Collage">
+            <h3>Cuaderno Collage</h3>
+            <p class="price">$25.000</p>
+            <button class="view-product">Conocer Más</button>
+        </div>
+
+        <div class="product-card" 
+             data-name="Cuaderno Historia" 
+             data-price="$25.000"
+             data-description="Tamaño A5 (21x15cm).<br>INCLUYE:<br>• 6 polaroids Cuadradas.<br>• 4 Clásicas Básicas.<br>• Esquineros Negros.<br>• Detalles creativos hechos a mano.<br>• 8 páginas Negras de 250gr.<br>• Tapas negras rígidas de 300gr.<br><br>Álbum de recuerdos que cuenta tu historia 
+Transformamos tus fotos en un álbum donde cada página representa un momento especial.<br><strong>CALIDAD PREMIUM</strong>"
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-gallery="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+            <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Cuaderno Historia">
+            <h3>Cuaderno Historia</h3>
+            <p class="price">$25.000</p>
+            <button class="view-product">Conocer Más</button>
+        </div>
+
+        <div class="product-card" 
+             data-name="Cuaderno Momentos" 
+             data-price="$25.000"
+             data-description="Tamaño A5 (21x15cm).<br>INCLUYE:<br>• 10 polaroids Comunes.<br>• 4 Clásicas Básicas.<br>• Esquineros Negros.<br>• 8 páginas Negras de 250gr.<br>• Tapas negras rígidas de 300gr.<br><br>Un álbum único creado para guardar tus momentos más especiales.<br><strong>CALIDAD PREMIUM</strong>"
+             data-image="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg"
+             data-gallery="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg,imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg">
+            <img src="imagenes/WhatsApp Image 2026-02-02 at 19.01.41 (3).jpeg" alt="Cuaderno Momentos">
+            <h3>Cuaderno Momentos</h3>
+            <p class="price">$25.000</p>
+            <button class="view-product">Conocer Más</button>
+        </div>
+
+
+
+     </div>
+    </section>
+
+    <section class="section info">
+        <h2>Información</h2>
+        <p>La Plata, Buenos Aires - </p>
+    </section>
+
+</div> 
+<section id="sec-quienes-somos" class="content-section" style="display: none;">
+    <div class="section-container">
+        <h2 class="section-title">Nuestra Historia</h2>
+        
+        <div class="about-us-banner">
+            <img src="imagenes/quienes somos.png" alt="Sobre VITAE" class="responsive-banner">
+        </div>
+    </div>
+</section>
+
+<section id="sec-envios" class="content-section" style="display:none;">
+    <div class="section">
+        <h2>Envíos y Entregas</h2>
+        <p>📍 Entregas en La Plata y alrededores.<br>
+        📦 El tiempo de preparación del pedido puede variar según la cantidad de fotos solicitadas. Generalmente, los pedidos se preparan dentro de los 2 a 4 días hábiles luego de confirmada la seña.<br>
+        Una vez que tu pedido esté listo, nos pondremos en contacto para coordinar la entrega o el retiro.(modificar y poner dias exactos de entrega)</p>
+    </div>
+</section>
+
+<section id="sec-guia-compra" class="content-section" style="display:none;">
+    <div class="section">
+        <h2>Guía de Compra</h2>
+        <p>Para que tu experiencia sea simple y rápida, te dejamos algunos pasos y recomendaciones para realizar tu pedido:</p>
+        <ul class="guia-lista">
+        <li><strong>Elegí el tamaño o pack:</strong> Podés elegir entre los distintos tamaños y packs disponibles según la cantidad de fotos que quieras imprimir.</li>
+        <li><strong>Confirmación del pedido:</strong> Para confirmar el pedido se solicita una seña del 50% del total. El monto restante (50%) puede abonarse vía online o al momento de la entrega/retiro.</li>
+        <li><strong>Enviá tus fotos:</strong> Mandanos las imágenes en documento por WhatsApp (a la hora de enviar el comprobante te enviamos una guia de como enviar adecuadamente). Es importante que las fotos tengan buena calidad...</li>
+        <li><strong>Preparación de tu pedido:</strong> Después de confirmar el pago, comenzamos a preparar e imprimir tus fotos.</li>
+        <li><strong>Entrega o retiro:</strong> se realizará en la fecha y hora pactada con anterioridad.</li>
+         </ul>
+    <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-top: 20px;">
+        <p><strong>Recomendaciones:</strong></p>
+        <ul style="list-style: none; padding: 0;">
+            <li>• Enviá tus fotos en el sentido que sea más adecuado (horizontalmente/verticalmente) sino la imagen se expande/acorta.</li>
+            <li>• Revisá que las imágenes no estén recortadas o borrosas.</li>
+            <li>• Tené en cuenta que el color puede variar levemente según la pantalla del dispositivo.</li>
+        </ul>
+    </div>
+    
+    <p style="margin-top: 20px;">Si tenés dudas, podés escribirnos vía <strong>WhatsApp</strong> y estaremos felices de ayudarte.</p>
+</div>
+</section>
+
+<footer class="vitae-footer">
+  <p class="footer-text">Métodos de Pago</p>
+  <div class="payment-grid">
+    <div class="payment-card">
+      <img src="imagenes/naranja x.jpg" alt="Naranja X" class="payment-icon">
+    </div>
+    <div class="payment-card">
+      <img src="imagenes/mercado pago.jpg" alt="Mercado Pago" class="payment-icon">
+    </div>
+    <div class="payment-card">
+      <img src="imagenes/modo logo.png" alt="Modo" class="payment-icon">
+    </div>
+    <div class="payment-card">
+      <img src="imagenes/pagofacil.jpg" alt="Pago Fácil" class="payment-icon">
+    </div>
+  </div>
+</footer>
+
+<footer>
+    <p>© 2026 · VITAE.LP</p>
+</footer>
+
+
+<div class="product-view" id="productView">
+    <div class="product-view-content">
+        <span class="close-view" id="closeView">✕</span>
+        <div class="product-scroll">
+            
+            <div class="slider-container" style="position: relative; text-align: center;">
+                <button id="prevImg" style="position: absolute; left: 10px; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(17,42,74,0.5);">❮</button>
+                
+                <img id="viewImage" style="width: 100%; border-radius: 10px; display: block;">
+                
+                <button id="nextImg" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10; background: rgba(17,42,74,0.5);">❯</button>
+            </div>
+
+            <div style="text-align: center; margin-top: 10px;">
+                <p id="pageNumber" style="font-size: 0.8rem; color: #666; margin-top: 5px;">Página 1 de 1</p>
+            </div>
+
+            <h2 id="viewTitle" style="margin-top: 20px;"></h2>
+            <p id="viewPrice" style="font-size: 1.5rem; font-weight: bold; color: #112a4a;"></p>
+            <p id="viewDescription" style="color: #555; margin-bottom: 20px;"></p>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+            <div style="text-align: center; margin-bottom: 15px;">
+                <button id="toggleViewMode" class="btn-personalizar" style="
+                    background: #112a4a; 
+                    color: white; 
+                    border: none; 
+                    padding: 12px 24px; 
+                    border-radius: 25px; 
+                    font-weight: bold; 
+                    cursor: pointer;
+                    transition: transform 0.2s;">
+                    ✨ Personalizar Polaroid (+$1000)
+                </button>
+                <p id="selectedBorderText" style="font-size: 0.9rem; color: #112a4a; margin-top: 5px; font-weight: bold; display: none;">
+                    Diseño seleccionado: <span id="borderNameDisplay">Sin diseño</span>
+                </p>
+            </div>
+
+            <div id="simulationContainer" style="display: none; background-color: #becee4; padding: 40px 20px; border-radius: 12px; margin: 15px 0; justify-content: center; align-items: center; min-height: 400px;">
+
+             <div id="polaroidPreview" style="
+              position: relative; 
+              background-color: white !important; 
+             box-shadow: 0 15px 35px rgba(0,0,0,0.3); 
+             overflow: hidden;
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             transition: all 0.3s ease;
+             /* El tamaño se ajustará vía JS, pero dejamos un valor inicial */
+             padding: 12px;
+             ">
+        
+          <div id="borderLayer" style="
+            position: absolute; 
+            inset: 0; 
+            z-index: 1; 
+            background-size: 100% 100%; 
+            background-repeat: no-repeat;
+            background-position: center;">
+          </div>
+        
+          <div id="photoSpace">
+            <span style="color: #ccc; font-size: 10px; font-weight: bold;">TU FOTO</span>
+        </div>
+
+        <div id="polaroidChin" style=" width: 100%; z-index: 2;"></div>
+    </div>
+</div>
+
+            <div id="border-designs-container" class="config-section" style="display:none; margin-top: 15px;">
+                <label style="font-weight: bold; color: #112a4a; display: block; margin-bottom: 10px;">Elegí el diseño de la Polaroid :</label>
+                <div id="border-options" class="options-grid" style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;"></div>
+                <div style="text-align: center; margin-top: 20px;">
+                  <button id="btnDoneDesign" style="background: #28a745; color: white; border: none; padding: 10px 25px; border-radius: 20px; font-weight: bold; cursor: pointer;">
+                  ✅ Hecho
+                  </button>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+            <div id="designs-container" class="config-section" style="display:none;">
+                <label>Elige el diseño de tapa:</label>
+                <div id="designs-options" class="options-grid"></div>
+            </div>
+
+            <div id="packs-container" class="config-section" style="display:none;">
+                <label>Elige tu Pack de fotos:</label>
+                <div id="packs-options" class="options-grid"></div>
+            </div>
+
+            <div id="variant-container" style="margin: 20px 0; padding: 15px; border: 1px solid #eee; border-radius: 10px; background: #fafafa;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #112a4a;">Seleccioná el Pack:</label>
+                <select id="variantSelect" style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #112a4a; cursor: pointer; background: white;"></select>
+            </div>
+
+            <div id="layout-container" style="display: none; margin: 15px 0; padding: 15px; border: 1px solid #eee; border-radius: 10px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: bold; color: #112a4a;">Diseño de la tira:</label>
+                <div id="layout-options" style="display: flex; gap: 10px;"></div>
+            </div>
+
+            <div id="magnet-option-container" style="margin: 20px 0; padding: 15px; border: 1px solid #eee; border-radius: 10px; background: #fdfdfd;">
+    <label style="display: block; margin-bottom: 12px; font-weight: bold; color: #112a4a;">
+    ¿Agregar imantación completa?
+    </label>
+    <div style="display: flex; gap: 20px; justify-content: center; align-items: center;">
+        <div class="magnet-toggle" id="magnet-no" onclick="toggleMagnet(false)">
+            <span>No</span>
+        </div>
+        <div class="magnet-toggle" id="magnet-yes" onclick="toggleMagnet(true)">
+            <span>Sí</span>
+        </div>
+    </div>
+    <p id="magnet-price-hint" style="font-size: 0.8rem; color: #353535; margin-top: 10px; text-align: center; display: none;">
+        Costo extra por imantación: <span id="magnet-total-extra">$0</span>
+    </p>
+</div>
+
+            <button id="addToCart" class="buy-btn" style="width: 100%; padding: 15px; font-size: 1.1rem; border-radius: 10px;">Agregar al carrito</button>
+        </div>
+    </div>
+</div>
+
+<div class="cart-view" id="cartView">
+    <div class="cart-content">
+        <span class="close-cart" id="closeCart">✕</span>
+        <h2>Tu Carrito</h2>
+        
+        <div id="cartItems"></div>
+        
+        <div class="cart-summary">
+            <p>Total: <strong>$<span id="cartTotal">0</span></strong></p>
+            <p class="senia-text">Seña (50%): <strong>$<span id="cartSenia">0</span></strong></p>
+        </div>
+
+        <div id="customer-data" style="margin-top: 15px;">
+           <p style="font-size: 0.9rem; margin-bottom: 5px; color: #112a4a; font-weight: bold;">Tus datos de contacto:</p>
+           <input type="text" id="cust-name" placeholder="Nombre y Apellido" style="width:100%; padding:8px; margin-bottom:8px; border-radius:5px; border:1px solid #ccc;">
+           <small id="error-name" style="color: red; display: none; margin-bottom: 8px;">Mínimo 3 caracteres.</small>
+           <input type="tel" id="cust-wsp" placeholder="Tu WhatsApp (con código de área)" style="width:100%; padding:8px; margin-bottom:8px; border-radius:5px; border:1px solid #ccc;">
+           <small id="error-wsp" style="color: red; display: none; margin-bottom: 8px;">Ingresá 10 números (ej: 2216543210).</small>
+        </div>
+
+        <div id="initial-cart-buttons" class="cart-buttons">
+            <button id="btn-select-full" class="buy-btn">Pagar Total</button>
+            <button id="btn-select-senia" class="buy-btn secondary">Pagar Seña (50%)</button>
+        </div>
+
+
+<div id="transfer-step" style="display:none; margin-top: 15px; border-top: 2px dashed #112a4a; padding-top: 15px;">
+    <div style="background:#f0f4f8; padding:15px; border-radius:10px; border: 1px solid #112a4a;">
+        <p style="color:#112a4a; font-weight:bold; margin-bottom:10px; text-align: center;">Datos de Transferencia</p>
+        <p><strong>Monto a transferir:</strong> $<span id="display-monto-transfer">0</span></p>
+        <p><strong>Alias:</strong> <span id="alias-text">VITAE.LP</span></p>
+        <p><strong>CBU:</strong> <span id="cbu-text">4530000800017270296057</span></p>
+        <p><strong>Titular:</strong> Federico Acosta.</p>
+        
+        <div style="display: flex; gap: 5px; margin-top: 10px;">
+            <button onclick="copiarTexto('alias-text', 'Alias')" style="flex: 1; background:white; color:#112a4a; border:1px solid #112a4a; padding:8px; font-size:0.75rem; border-radius:5px; cursor:pointer;">
+                Copiar Alias 📋
+            </button>
+            <button onclick="copiarTexto('cbu-text', 'CBU')" style="flex: 1; background:white; color:#112a4a; border:1px solid #112a4a; padding:8px; font-size:0.75rem; border-radius:5px; cursor:pointer;">
+                Copiar CBU 📋
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 15px; padding: 15px; border: 2px dashed #112a4a; border-radius: 10px; background: #fff; text-align: center;">
+        <p style="color:#112a4a; font-size: 0.9rem; font-weight: bold; margin-bottom: 10px;">📤 Subí tu captura de pago aquí:</p>
+        
+        <label for="comprobanteInput" style="display: inline-block; background: #112a4a; color: white; padding: 8px 15px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; margin-bottom: 10px;">
+            Seleccionar Foto 📸
+        </label>
+        <input type="file" id="comprobanteInput" accept="image/*" style="display: none;">
+        
+        <div id="previewContainer" style="display: none; margin-top: 10px;">
+            <p style="font-size: 0.7rem; color: #666; margin-bottom: 5px;">Vista previa:</p>
+            <img id="previewComprobante" style="width: 120px; height: auto; border-radius: 8px; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin: 0 auto;">
+            <p id="fileNameDisplay" style="font-size: 0.65rem; color: #25d366; margin-top: 5px; font-weight: bold;">✓ Archivo cargado</p>
+        </div>
+    </div>
+
+    <button id="btn-confirm-wsp" class="buy-btn" style="width:100%; margin-top:15px; background-color: #25d366; font-weight: bold; height: 50px;">
+        Confirmar Pedido y WhatsApp 📲
+    </button>
+    
+    <button onclick="cancelarPago()" style="background:none; border:none; color:gray; width:100%; margin-top:10px; font-size:0.8rem; cursor:pointer;">
+        Volver atrás
+    </button>
+</div>
+
+<a href="https://wa.me/5492215111026" class="wsp-float" target="_blank" aria-label="Contacto por WhatsApp">
+    <svg viewBox="0 0 24 24" class="wsp-icon">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.675 1.436 5.66 1.438h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+</a>
+
+<script src="script.js"></script>
+</body>
+</html>
