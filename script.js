@@ -84,6 +84,7 @@ const btnDoneDesign = document.getElementById("btnDoneDesign");
 /* ===== VISOR DE PRODUCTO (VERSIÓN FINAL CORREGIDA) ===== */
 products.forEach(button => {
     button.addEventListener("click", () => {
+        resetDesign(); // Llamamos a la función de reseteo
         const card = button.closest(".product-card");
         if (!card) return;
 
@@ -200,6 +201,7 @@ products.forEach(button => {
                 const sel = variantSelect.options[variantSelect.selectedIndex];
                 viewPrice.textContent = `$${parseInt(sel.value).toLocaleString('es-AR')}`;
                 viewImage.src = sel.dataset.img;
+                recalcularPrecioTotal();
             };
         } else if (variantContainer) {
             variantContainer.style.display = "none";
@@ -1119,6 +1121,31 @@ document.addEventListener("change", (e) => {
         }
     }
 });
+
+function resetDesign() {
+    // 1. Limpiar el contenedor de la foto (quitar bordes previos)
+    const photoSpace = document.getElementById('photoSpace');
+    if (photoSpace) {
+        photoSpace.innerHTML = ''; // Borra fotos cargadas
+        photoSpace.className = ''; // Quita clases como 'grid-strips'
+        photoSpace.style.backgroundColor = 'white'; // Color base
+    }
+
+    // 2. Resetear el marco (borderLayer)
+    const borderLayer = document.getElementById('borderLayer');
+    if (borderLayer) {
+        borderLayer.style.backgroundImage = 'none';
+    }
+
+    // 3. Quitar la selección visual de los cuadraditos (thumbs)
+    document.querySelectorAll('.border-thumb').forEach(thumb => {
+        thumb.classList.remove('selected');
+    });
+
+    // 4. (Opcional) Resetear variables globales de diseño si usas alguna
+    // selectedBorder = null; 
+    // isMagnet = false;
+}
 
 // Forzamos que al cargar la página, la Polaroid sea la Común
 ajustarMoldeSegunProducto("comun");
