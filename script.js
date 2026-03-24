@@ -191,7 +191,7 @@ products.forEach(button => {
                 const partsV = optText.trim().split(":");
                 if(partsV.length < 3) return;
                 const [vNombre, vPrecio, vImg] = partsV;
-                const opt = document.createElement("option");
+              const opt = document.createElement("option");
                 opt.value = vPrecio;
                 opt.textContent = vNombre;
                 opt.dataset.img = vImg;
