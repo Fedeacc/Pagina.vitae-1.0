@@ -24,12 +24,13 @@ const topBar = document.querySelector(".top-bar");
 let currentImages = [];
 let currentIndex = 0;
 let tieneImantacion = false;
+let disenioTemporal = "Sin diseño"; // Guardará el diseño mientras el usuario elige
 // Función de ingeniería para convertir archivo a Base64
 const toBase64 = file => new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-        // Quitamos el prefijo "data:image/jpeg;base64,"
+        // Quitamos el prefijo "data:image/webp;base64,"
         const base64String = reader.result.split(',')[1];
         resolve(base64String);
     };
@@ -169,7 +170,7 @@ products.forEach(button => {
                     if (borderLayer) borderLayer.style.backgroundImage = `url('${urlReal.trim()}')`;
                     document.querySelectorAll(".border-thumb").forEach(b => b.classList.remove("selected"));
                     btnBorder.classList.add("selected");
-                    if (borderDisplay) borderDisplay.textContent = nombre.trim();
+                    disenioTemporal = nombre.trim();
                     recalcularPrecioTotal();
                 };
 
@@ -470,7 +471,7 @@ document.addEventListener("click", async (e) => {
                 tipoPago: tipoDePago,
                 monto: montoSeleccionado,
                 archivoBase64: fotoBase64,
-                nombreArchivo: `Comprobante_${nombreCliente.replace(/\s+/g, '_')}_${Date.now()}.jpg`
+                nombreArchivo: `Comprobante_${nombreCliente.replace(/\s+/g, '_')}_${Date.now()}.webp`
             };
 
             // 1. Preparamos el mensaje de WhatsApp por adelantado
@@ -894,6 +895,10 @@ if (toggleBtn) {
 // ÚNICA DECLARACIÓN DEL BOTÓN HECHO
 if (btnDoneDesign) {
     btnDoneDesign.onclick = () => {
+        const borderDisplay = document.getElementById("borderNameDisplay");
+        if (borderDisplay) {
+            borderDisplay.textContent = disenioTemporal; 
+        }
         simulationContainer.style.display = "none";
         viewImage.style.display = "block";
         borderContainer.style.display = "none";
@@ -1123,6 +1128,7 @@ document.addEventListener("change", (e) => {
 });
 
 function resetDesign() {
+    disenioTemporal = "Sin diseño"; // Resetear el borrador
     // 1. Limpiar el contenedor de la foto (quitar bordes previos)
     const photoSpace = document.getElementById('photoSpace');
     if (photoSpace) {
@@ -1142,9 +1148,11 @@ function resetDesign() {
         thumb.classList.remove('selected');
     });
 
-    // 4. (Opcional) Resetear variables globales de diseño si usas alguna
-    // selectedBorder = null; 
-    // isMagnet = false;
+    // 4. Asegurarnos de que el texto de la UI también se limpie
+    const borderDisplay = document.getElementById("borderNameDisplay");
+    if (borderDisplay) {
+        borderDisplay.textContent = "Sin diseño";
+    }
 }
 
 // Forzamos que al cargar la página, la Polaroid sea la Común
