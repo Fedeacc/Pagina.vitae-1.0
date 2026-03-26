@@ -9,9 +9,30 @@ window.addEventListener('load', () => {
 });
 
 /* ===== ELEMENTOS GENERALES ===== */
-const COSTO_DISENIO = 1000;
+const tablaDePrecios = {
+    "Polaroid Común": {
+        5: 1000,   // Precio total si lleva 5
+        15: 2500, // Precio total si lleva 15 
+        30: 4000  // Precio total si lleva 30
+    },
+    "Polaroid Extralarge": {
+        3: 1500,
+        5: 2000,
+        10: 3000
+    },
+    "Polaroid strips": {
+        4: 1500,
+        8: 2500,
+        12: 3500
+    },
+    "Polaroid Cuadrada": {
+        6: 2000,
+        10: 3000,
+        16: 5500
+    }
+};
 const PRECIOS_IMAN = {
-    "Polaroid Común": 400,      
+    "Polaroid Común": 400,      //precio de c/u para hacer la cuenta.
     "Polaroid Extralarge": 600,
     "Polaroid Cuadrada": 600,
     "Polaroid strips": 500,
@@ -39,9 +60,9 @@ const toBase64 = file => new Promise((resolve, reject) => {
 
 /* ===== MENÚ & BUSCADOR ===== */
 if (menuBtn && mobileMenu) {
-    menuBtn.addEventListener("click", () => {
-        mobileMenu.style.display = (mobileMenu.style.display === "flex") ? "none" : "flex";
-        if (searchBar) searchBar.style.display = "none";
+    menuBtn.addEventListener("click", (e) => {
+        e.stopPropagation(); // Evita que el click cierre el menú inmediatamente
+        mobileMenu.classList.toggle("active");
     });
 }
 
@@ -54,19 +75,24 @@ if (searchBtn && searchBar) {
 
 /* ===== CERRAR AL TOCAR FUERA ===== */
 window.addEventListener("click", (e) => {
-    // Para el buscador
-    if (searchBar && searchBtn) {
-        if (!searchBar.contains(e.target) && !searchIcon.contains(e.target)) {
-            searchBar.style.display = "none";
-            const suggestions = document.getElementById("searchSuggestions");
-            if (suggestions) suggestions.style.display = "none";
+    // 1. Lógica del Menú Mobile (Solo usamos .active)
+    if (mobileMenu && menuBtn) {
+        if (mobileMenu.classList.contains("active")) {
+            // Si el click NO es en el menú ni en el botón de hamburguesa
+            if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                mobileMenu.classList.remove("active");
+            }
         }
     }
 
-    // Para el menú mobile
-    if (mobileMenu && menuBtn) {
-        if (!mobileMenu.contains(e.target) && !menuBtn.contains(e.target)) {
-            mobileMenu.style.display = "none";
+    // 2. Lógica del Buscador (Aquí sí mantenemos display porque no tiene animación CSS todavía)
+    if (searchBar && searchBtn) {
+        // Usamos searchIcon o searchBtn según como lo tengas definido
+        const triggerBusqueda = document.getElementById("searchIcon") || searchBtn;
+        if (!searchBar.contains(e.target) && !triggerBusqueda.contains(e.target)) {
+            searchBar.style.display = "none";
+            const suggestions = document.getElementById("searchSuggestions");
+            if (suggestions) suggestions.style.display = "none";
         }
     }
 });
@@ -138,7 +164,7 @@ products.forEach(button => {
             if (tieneBordesConfigurados) {
                 // SI TIENE BORDES: Mostramos el botón azul
                 toggleBtn.style.display = "inline-block";
-                toggleBtn.textContent = `✨ Personalizar diseño (+$${COSTO_DISENIO.toLocaleString('es-AR')})`;
+                toggleBtn.textContent = `✨ Personalizar diseño`;
             } else {
                 // NO TIENE BORDES: Ocultamos el botón azul COMPLETAMENTE
                 toggleBtn.style.display = "none";
@@ -824,7 +850,7 @@ function crearBotonConfig(texto, accion) {
 function closeMenu() {
     const mobileMenu = document.getElementById("mobileMenu");
     if (mobileMenu) {
-        mobileMenu.style.display = "none";
+        mobileMenu.classList.remove("active");
     }
 }
 
@@ -870,24 +896,38 @@ const borderContainer = document.getElementById("border-designs-container");
 
 if (toggleBtn) {
     toggleBtn.onclick = () => {
-        // En ingeniería, es mejor preguntar por el estado explícito
         const modoActual = simulationContainer.style.display;
+        const selectedText = document.getElementById("selectedBorderText");
 
         if (modoActual === "none" || modoActual === "") {
-            simulationContainer.style.display = "flex"; // Abrir
+            // ABRIR
+            simulationContainer.style.display = "flex";
             viewImage.style.display = "none";
             borderContainer.style.display = "block";
-            toggleBtn.textContent = "Ver Foto del producto";
             
-            // Re-ejecutamos el ajuste del molde para que no salga deforme
             const currentTitle = viewTitle.textContent;
             ajustarMoldeSegunProducto(currentTitle);
         } else {
-            simulationContainer.style.display = "none"; // Cerrar
+            // CERRAR
+            simulationContainer.style.display = "none";
             viewImage.style.display = "block";
             borderContainer.style.display = "none";
-            toggleBtn.textContent = `✨ Personalizar diseño (+$${COSTO_DISENIO})`;
         }
+
+        // Siempre mantenemos el mismo nombre
+        toggleBtn.textContent = "✨ Personalizar Polaroid";
+
+        // Sincronizamos el texto del diseño al instante
+        if (selectedText) {
+            const display = document.getElementById("borderNameDisplay");
+            if (disenioTemporal && disenioTemporal.toLowerCase() !== "sin diseño") {
+                if (display) display.textContent = disenioTemporal;
+                selectedText.style.display = "block";
+            } else {
+                selectedText.style.display = "none";
+            }
+        }
+        
         actualizarSlider();
     };
 }
@@ -896,22 +936,31 @@ if (toggleBtn) {
 if (btnDoneDesign) {
     btnDoneDesign.onclick = () => {
         const borderDisplay = document.getElementById("borderNameDisplay");
+        const selectedText = document.getElementById("selectedBorderText");
+
+        // 1. Pasamos el borrador al definitivo
         if (borderDisplay) {
             borderDisplay.textContent = disenioTemporal; 
         }
+
+        // 2. FORZAMOS la visibilidad del texto al primer clic
+        if (selectedText) {
+            if (disenioTemporal && disenioTemporal.toLowerCase() !== "sin diseño") {
+                selectedText.style.display = "block";
+            } else {
+                selectedText.style.display = "none";
+            }
+        }
+
+        // 3. Cerramos y reseteamos el botón azul
         simulationContainer.style.display = "none";
         viewImage.style.display = "block";
         borderContainer.style.display = "none";
-        toggleBtn.textContent = `✨ Personalizar diseño (+$${COSTO_DISENIO})`;
-        
-        if (selectedBorderText) {
-            const display = document.getElementById("borderNameDisplay");
-            selectedBorderText.style.display = (display && display.textContent !== "Sin diseño") ? "block" : "none";
-        }
-        
-        actualizarSlider();
+        if (toggleBtn) toggleBtn.textContent = "✨ Personalizar Polaroid";
+
+        // 4. Recalcular precio y slider
         recalcularPrecioTotal(); 
-        // Sin scroll automático para que no salte
+        actualizarSlider();
     };
 }
 
@@ -939,49 +988,65 @@ function toggleMagnet(seleccion) {
 }
 
 function recalcularPrecioTotal() {
-    const title = document.getElementById("viewTitle").textContent.trim();
+    const titleElement = document.getElementById("viewTitle");
     const variantSelect = document.getElementById("variantSelect");
     const priceDisplay = document.getElementById("viewPrice");
-    const extraDisplay = document.getElementById("magnet-total-extra");
-    const borderDisplay = document.getElementById("borderNameDisplay");
-    const toggleBtn = document.getElementById("toggleViewMode");
+    const infoExtra = document.getElementById("info-extra-disenio"); // Nuevo elemento
 
-    if (!variantSelect || !variantSelect.options[variantSelect.selectedIndex]) return;
+    if (!titleElement || !variantSelect || !variantSelect.options[variantSelect.selectedIndex]) return;
 
-    // 1. PRECIO BASE DEL PACK (ej: 4 unidades de Strips)
-    let precioFinal = parseFloat(variantSelect.value);
+    // 1. PRECIO BASE
+    let precioFinal = parseFloat(variantSelect.value); 
 
-    // 2. RECARGO POR DISEÑO ($1.000)
-    // Si el usuario eligió un diseño (el texto no es "Sin diseño")
-    const tieneDisenio = borderDisplay && borderDisplay.textContent.trim().toLowerCase() !== "sin diseño";
-    
-    if (tieneDisenio) {
-        precioFinal += COSTO_DISENIO; 
-    }
-
-    // 3. RECARGO POR IMANTACIÓN
+    // 2. OBTENER CANTIDAD Y NOMBRE
     const packText = variantSelect.options[variantSelect.selectedIndex].textContent;
     const matchCantidad = packText.match(/\d+/); 
-    const cantidad = matchCantidad ? parseInt(matchCantidad[0]) : 0;
-    
+    const cantidadSeleccionada = matchCantidad ? parseInt(matchCantidad[0]) : 1;
+    const nombreProductoVisor = titleElement.textContent.trim().toLowerCase();
+
+    // 3. BUSCAR EXTRA DE DISEÑO EN LA TABLA
+    let adicionalDisenio = 0;
+    const categoriaEncontrada = Object.keys(tablaDePrecios).find(key => key.toLowerCase() === nombreProductoVisor);
+
+    if (categoriaEncontrada) {
+        const escalaPrecios = tablaDePrecios[categoriaEncontrada];
+        const escalones = Object.keys(escalaPrecios).map(Number).sort((a, b) => b - a);
+        const escalonCorrecto = escalones.find(e => cantidadSeleccionada >= e);
+        
+        if (escalonCorrecto) {
+            adicionalDisenio = escalaPrecios[escalonCorrecto];
+        }
+    }
+
+    // 4. MOSTRAR EL TEXTO DEL EXTRA (Tu pedido)
+    if (infoExtra) {
+        if (adicionalDisenio > 0) {
+            infoExtra.innerHTML = `Este pack con diseño cuesta un extra de: <b>$${adicionalDisenio.toLocaleString('es-AR')}</b>`;
+            infoExtra.style.display = "block";
+        } else {
+            infoExtra.style.display = "none";
+        }
+    }
+
+    // 5. SUMAR AL TOTAL SI HAY DISEÑO ELEGIDO
+    const estadoActualDisenio = disenioTemporal ? disenioTemporal.toLowerCase() : "sin diseño";
+    if (estadoActualDisenio !== "sin diseño") {
+        precioFinal += adicionalDisenio;
+    }
+
+    // 6. RECARGO POR IMANTACIÓN (Se mantiene igual)
     let costoImanUnitario = 0;
-    const nombreProductoBusqueda = title.toLowerCase();
     for (let nombreKey in PRECIOS_IMAN) {
-        if (nombreKey.toLowerCase() === nombreProductoBusqueda) {
+        if (nombreKey.toLowerCase() === nombreProductoVisor) {
             costoImanUnitario = PRECIOS_IMAN[nombreKey];
             break;
         }
     }
-    
-    let extraInformativo = cantidad * costoImanUnitario;
-    if (extraDisplay) extraDisplay.textContent = `$${extraInformativo.toLocaleString('es-AR')}`;
-
-    // Solo sumamos el imán si marcaron "SÍ"
     if (tieneImantacion) {
-        precioFinal += extraInformativo;
+        precioFinal += (cantidadSeleccionada * costoImanUnitario);
     }
 
-    // 4. ACTUALIZAR EL PRECIO GRANDE EN PANTALLA
+    // 7. MOSTRAR RESULTADO FINAL
     if (priceDisplay) {
         priceDisplay.textContent = `$${precioFinal.toLocaleString('es-AR')}`;
     }
@@ -1153,6 +1218,8 @@ function resetDesign() {
     if (borderDisplay) {
         borderDisplay.textContent = "Sin diseño";
     }
+    // Esto hace que, al resetear, el precio vuelva al base inmediatamente
+    recalcularPrecioTotal();
 }
 
 /* Función para abrir secciones desde links externos o descripciones */
@@ -1196,6 +1263,34 @@ function irAInicio() {
 
     // 3. Scroll al inicio
     window.scrollTo(0, 0);
+}
+
+function actualizarPrecioFinal() {
+    const selectorVariantes = document.querySelector('[data-variants]');
+    const variante = selectorVariantes.value;
+    const cantidadInput = document.getElementById('input-cantidad').value;
+    const cantidad = parseInt(cantidadInput);
+
+    // Buscamos en nuestra tabla de precios
+    const preciosDeEsteProducto = tablaDePrecios[variante];
+
+    // Si la cantidad exacta existe en tu lista (ej: 10), tomamos ese precio.
+    // Si no, podemos hacer que tome el precio de la escala anterior.
+    let precioFinal = 0;
+
+    if (preciosDeEsteProducto) {
+        // Buscamos el escalón de precio que corresponde
+        const escalones = Object.keys(preciosDeEsteProducto).map(Number).sort((a, b) => b - a);
+        const escalonCorrecto = escalones.find(e => cantidad >= e);
+        
+        if (escalonCorrecto) {
+            precioFinal = preciosDeEsteProducto[escalonCorrecto];
+        }
+    }
+
+    // Mostramos el precio tal cual lo ingresaste vos en la tabla
+    document.getElementById('precio-total-display').innerText = `$${precioFinal}`;
+    document.getElementById('boton-comprar').innerText = `Comprar ahora - $${precioFinal}`;
 }
 
 // Forzamos que al cargar la página, la Polaroid sea la Común

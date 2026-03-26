@@ -14,6 +14,40 @@ body {
     min-height: 100vh;
 }
 
+/* Contenedor opcional para darle margen lateral en mobile */
+.panel-bienvenida-container {
+    padding: 20px; /* Separación del borde de la pantalla */
+    display: flex;
+    justify-content: center; /* Centra el panel horizontalmente */
+    width: 100%;
+}
+
+/* Estilo para el panel con bordes y relieve */
+.panel-bienvenida {
+    background-color: #ffffff; /* Fondo blanco puro para contraste */
+    border: 1px solid #e1e8ed;  /* Borde sutil gris azulado */
+    border-radius: 15px;       /* Bordes redondeados modernos */
+    padding: 25px 30px;        /* Espaciado interno generoso */
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Sombra suave para dar relieve */
+    text-align: center;       /* Centra el texto adentro */
+}
+
+/* Estilos para el título y el texto adentro */
+.titulo-bienvenida {
+    font-size: 1.5rem;
+    color: #112a4a;           /* Tu color azul VITAE */
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.texto-bienvenida {
+    font-size: 1rem;
+    color: #444;              /* Un gris oscuro para buena lectura */
+    line-height: 1.5;
+    margin: 0;
+}
+
 /* HERO */
 .hero {
   position: relative;
@@ -42,6 +76,16 @@ body {
 
 .hero-overlay h1 {
   font-size: 2rem;
+}
+
+.logo {
+    font-family: 'Montserrat', sans-serif; /* Cambia 'Montserrat' por la que prefieras */
+    font-size: 30px;          /* Ajusta el tamaño (puedes usar px, rem o em) */
+    font-weight: 800;         /* Grosor de la letra: 700 es negrita, 800/900 es más pesada */
+    letter-spacing: 2px;    /* Espaciado entre letras para que se vea más moderno */
+    color: #112a4a;           /* Tu color azul VITAE */
+    text-transform: uppercase; /* Fuerza a que todo sea MAYÚSCULAS si te gusta ese estilo */
+    cursor: pointer;          /* Para que parezca un link si luego le ponés un onclick */
 }
 
 /* SECCIONES */
@@ -165,18 +209,36 @@ footer {
   left: 0;
   width: 100%;
   background: #fff;
-  display: none;
-  flex-direction: column;
   padding: 1rem;
   box-shadow: 0 10px 20px rgba(0,0,0,.15);
   z-index: 999;
+  display: flex; /* Lo dejamos en flex */
+  flex-direction: column;
+  /* --- ESTADO INICIAL (Cerrado) --- */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px); /* Empieza un poquito más arriba */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Curva de aceleración natural */
+  pointer-events: none; /* No se puede clickear si está invisible */
+}
+
+/* --- ESTADO ACTIVO (Abierto) --- */
+.mobile-menu.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0); /* Baja a su posición original */
+  pointer-events: auto; /* Habilita los clicks */
 }
 
 .mobile-menu a {
-  padding: .8rem 0;
+  display: flex;
+  align-items: center;
+  padding: 1.2rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
   text-decoration: none;
   color: #111;
   font-weight: 500;
+  transition: background 0.2s;
 }
 
 /* BUSCADOR */
@@ -203,6 +265,10 @@ footer {
   .mobile-menu {
     width: 300px;
   }
+}
+
+.mobile-menu a:hover {
+    background: #f9f9f9;
 }
 
 .icon {
@@ -479,19 +545,6 @@ font-weight:bold;
     stroke-linecap: round;
     stroke-linejoin: round;
     vertical-align: middle;
-}
-
-/* Ajuste del enlace para alinear contenido */
-.mobile-menu a {
-    display: flex;
-    align-items: center;
-    padding: 1.2rem 1rem;
-    border-bottom: 1px solid #f0f0f0;
-    transition: background 0.2s;
-}
-
-.mobile-menu a:hover {
-    background: #f9f9f9;
 }
 
 .icon-btn { 
