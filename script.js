@@ -1155,5 +1155,48 @@ function resetDesign() {
     }
 }
 
+/* Función para abrir secciones desde links externos o descripciones */
+function irASeccion(idNombre) {
+    const homeContent = document.getElementById("home-content");
+    const productView = document.getElementById("productView"); // <--- Agregamos esta referencia
+
+    // 1. Ocultar el visor del producto para que no tape la guía
+    if (productView) {
+        productView.style.display = "none";
+        document.body.style.overflow = "auto"; // Devolvemos el scroll al cuerpo
+    }
+
+    // 2. Ocultar secciones de páginas y el inicio
+    document.querySelectorAll(".content-section").forEach(sec => sec.style.display = "none");
+    if (homeContent) homeContent.style.display = "none";
+
+    // 3. Mostrar la sección de la guía
+    const targetSec = document.getElementById(`sec-${idNombre}`);
+    if (targetSec) {
+        targetSec.style.display = "block";
+        window.scrollTo(0, 0);
+    }
+    
+    // Por las dudas, si el menú mobile estaba abierto, lo cerramos
+    closeMenu();
+}
+
+function irAInicio() {
+    const homeContent = document.getElementById("home-content");
+
+    // 1. Apagamos TODAS las secciones que tengan la clase 'content-section'
+    document.querySelectorAll(".content-section").forEach(sec => {
+        sec.style.display = "none";
+    });
+    
+    // 2. Prendemos el inicio
+    if (homeContent) {
+        homeContent.style.display = "block";
+    }
+
+    // 3. Scroll al inicio
+    window.scrollTo(0, 0);
+}
+
 // Forzamos que al cargar la página, la Polaroid sea la Común
 ajustarMoldeSegunProducto("comun");

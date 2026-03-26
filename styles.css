@@ -1098,3 +1098,40 @@ html {
 #previewComprobante:hover {
     transform: scale(1.05); /* Efecto de lupa al pasar el mouse */
 }
+
+/* Contenedor para darle margen lateral (hacia la derecha) */
+.btn-volver-container {
+    padding: 20px 25px; /* 20px arriba/abajo, 25px de los costados */
+    display: flex;
+    justify-content: flex-start; /* Lo alinea a la izquierda de su contenedor */
+}
+
+/* Estilo para el botón de 'Volver' */
+.btn-volver {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px;
+    background-color: #f1f3f5; /* Un gris muy clarito y sutil */
+    color: #112a4a; /* Tu color azul VITAE */
+    text-decoration: none; /* Quitamos el subrayado */
+    border-radius: 30px; /* Bordes muy redondeados (tipo pastilla) */
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: all 0.3s ease; /* Para que el efecto hover sea suave */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05); /* Una sombra muy leve */
+}
+
+/* Efecto al pasar el mouse (para hacerlo 'llamativo') */
+.btn-volver:hover {
+    background-color: #e9ecef; /* Un gris un toque más oscuro */
+    transform: translateX(-3px); /* Se mueve suavemente 3px a la izquierda, indicando 'atrás' */
+    color: #112a4a; /* Mantiene tu color */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* La sombra crece un poco */
+}
+
+/* Estilo para la flechita ← */
+.icon-back {
+    font-size: 1.2rem;
+    line-height: 1; /* Para centrarla perfectamente */
+}
