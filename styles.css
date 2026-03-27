@@ -35,10 +35,12 @@ body {
 
 /* Estilos para el título y el texto adentro */
 .titulo-bienvenida {
-    font-size: 1.5rem;
+     font-family: 'Rajdhani', sans-serif;
+    font-size: 3rem;
     color: #112a4a;           /* Tu color azul VITAE */
     margin-bottom: 10px;
-    font-weight: 800;
+    font-weight: 2000;         /* Grosor extra para que destaque */
+     letter-spacing: 1px;    /* Un toque de espacio entre letras para modernizarlo */
 }
 
 .texto-bienvenida {
