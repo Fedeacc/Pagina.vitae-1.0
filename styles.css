@@ -126,7 +126,7 @@ body {
 /* Estilo para los precios en las tarjetas de la tienda */
 .product-card .price {
     color: #112a4a;         /* Azul oscuro de VITAE */
-    font-size: 1.8rem;      /* Tamaño grande y legible */
+    font-size: 1.5rem;      /* Tamaño grande y legible */
     font-weight: 800;       /* Grosor extra (Extra-Bold) */
     margin: 8px 0;          /* Espaciado para que no pegue con el texto */
     letter-spacing: -0.5px; /* Un toque más moderno y compacto */
@@ -136,9 +136,9 @@ body {
 /* Títulos de los productos en la tienda */
 .product-card h3, 
 .product-card .name {
-    font-family: 'Montserrat'; /* Fuentes modernas y circulares */
+    font-family: 'Rajdhani', sans-serif; /* Fuentes modernas y circulares */
     font-size: 1.5rem;           /* Tamaño jerárquico */
-    font-weight: 800;            /* Bien grueso (Bold) */
+    font-weight: 850;            /* Bien grueso (Bold) */
     margin-bottom: 5px;          /* Espacio con el precio */
     line-height: 1.2;            /* Ajuste de altura de línea para que no se vea disperso */
     text-transform: capitalize;  /* Asegura que la primera letra sea mayúscula */
