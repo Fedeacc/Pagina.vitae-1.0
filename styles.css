@@ -84,7 +84,7 @@ body {
     font-weight: 800;         /* Grosor de la letra: 700 es negrita, 800/900 es más pesada */
     letter-spacing: 2px;    /* Espaciado entre letras para que se vea más moderno */
     color: #112a4a;           /* Tu color azul VITAE */
-    text-transform: uppercase; /* Fuerza a que todo sea MAYÚSCULAS si te gusta ese estilo */
+    text-transform: uppercase; /* Fuerza a que todo sea MAYÚSCULAS  */
     cursor: pointer;          /* Para que parezca un link si luego le ponés un onclick */
 }
 
@@ -123,6 +123,27 @@ body {
   margin-bottom: 1rem;
 }
 
+/* Estilo para los precios en las tarjetas de la tienda */
+.product-card .price {
+    color: #112a4a;         /* Azul oscuro de VITAE */
+    font-size: 1.8rem;      /* Tamaño grande y legible */
+    font-weight: 800;       /* Grosor extra (Extra-Bold) */
+    margin: 8px 0;          /* Espaciado para que no pegue con el texto */
+    letter-spacing: -0.5px; /* Un toque más moderno y compacto */
+    display: block;         /* Asegura que ocupe su propia línea */
+}
+
+/* Títulos de los productos en la tienda */
+.product-card h3, 
+.product-card .name {
+    font-family: 'Montserrat'; /* Fuentes modernas y circulares */
+    font-size: 1.5rem;           /* Tamaño jerárquico */
+    font-weight: 800;            /* Bien grueso (Bold) */
+    margin-bottom: 5px;          /* Espacio con el precio */
+    line-height: 1.2;            /* Ajuste de altura de línea para que no se vea disperso */
+    text-transform: capitalize;  /* Asegura que la primera letra sea mayúscula */
+    letter-spacing: 0.3px;      /* Un toque de elegancia compacta */
+}
 
 .img-placeholder {
   width: 100%;
