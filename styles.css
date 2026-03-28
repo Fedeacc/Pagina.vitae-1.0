@@ -1211,3 +1211,19 @@ html {
     font-size: 1.2rem;
     line-height: 1; /* Para centrarla perfectamente */
 }
+
+.card-info {
+    background-color: #ffffff;    /* Fondo blanco para que resalte */
+    padding: 20px 15px;           /* Espacio interno para que el texto no toque los bordes */
+    border-radius: 0 0 15px 15px; /* Redondeamos solo las esquinas de ABAJO */
+    border: 1px solid #f0f0f0;    /* Un borde casi invisible para dar definición */
+    text-align: center;           /* Centramos el contenido */
+    
+    /* Sombras sutiles para dar profundidad */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); 
+    
+    /* Aseguramos que se pegue bien a la imagen de arriba */
+    margin-top: -5px; 
+    position: relative;
+    z-index: 1;
+}
