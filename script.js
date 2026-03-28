@@ -251,51 +251,15 @@ products.forEach(button => {
                     btnLayout.textContent = opt.trim();
                     btnLayout.className = "layout-btn";
                     
-                    btnLayout.onclick = () => {
-                        document.querySelectorAll(".layout-btn").forEach(b => b.classList.remove("selected"));
-                        btnLayout.classList.add("selected");
-                        
-                        const fEspacio = document.getElementById("photoSpace");
-                        const lChin = document.getElementById("polaroidChin");
-                        const molde = document.getElementById("polaroidPreview");
-
-                        if (fEspacio && lChin) {
-                            fEspacio.innerHTML = ""; 
-                            fEspacio.classList.add("grid-strips");
-                            fEspacio.style.aspectRatio = "auto"; 
-                            fEspacio.style.backgroundColor = "transparent";
-                            fEspacio.style.backgroundImage = "none";
-                            fEspacio.style.setProperty('background-color', 'transparent', 'important');
-
-                            if (molde) {
-                                molde.style.height = "auto"; 
-                                molde.style.paddingBottom = "20px";
-                            }
-
-                            const cantidad = opt.includes("3") ? 3 : 4;
-
-                            if (cantidad === 3) {
-                                lChin.style.height = "50px"; 
-                                fEspacio.style.gap = "15px"; 
-                            } else {
-                                lChin.style.height = "0px"; 
-                                fEspacio.style.gap = "10px"; 
-                            }
-
-                            for (let i = 0; i < cantidad; i++) {
-                                const slot = document.createElement("div");
-                                slot.className = "mini-photo-slot";
-                                // Si son 3 fotos, las hacemos más altas (verticales)
-                                if (cantidad === 3) {
-                                 slot.style.aspectRatio = "1 / 1.25"; // Probá con 1.3 si las querés más largas aún
-                                } else {
-                                    slot.style.aspectRatio = "1 / 1"; // Las de 4 quedan cuadradas para que entren bien
-                                }
-                                slot.innerHTML = '<span style="font-size:8px; color:#ccc; opacity:0.5;">FOTO</span>'; 
-                                fEspacio.appendChild(slot);
-                            }
-                        }
-                    };
+                    // Dentro de layoutData.split(",").forEach...
+btnLayout.onclick = () => {
+    document.querySelectorAll(".layout-btn").forEach(b => b.classList.remove("selected"));
+    btnLayout.classList.add("selected");
+    
+    // Simplemente llamamos a la función nueva
+    const cantidad = opt.includes("3") ? 3 : 4;
+    generarEspaciosFotos(cantidad);
+};
                     
                     layoutOptions.appendChild(btnLayout);
                     if (index === 0) setTimeout(() => btnLayout.click(), 100);
@@ -502,11 +466,13 @@ document.addEventListener("click", async (e) => {
 
             // 1. Preparamos el mensaje de WhatsApp por adelantado
             let listaWsp = cart.map(item => `- ${item.name} ($${item.price.toLocaleString('es-AR')})`).join("%0A");
-            const mensaje = `¡Hola VITAE! 👋%0A%0A` +
-                `*Nuevo Pedido:*%0A${listaWsp}%0A%0A` +
-                `*Cliente:* ${nombreCliente}%0A` +
-                `*Pago:* ${tipoDePago} ($${montoSeleccionado.toLocaleString('es-AR')})%0A%0A` +
-                `✅ Ya cargué el comprobante en la web. ¡Espero mi pedido!`;
+            const mensaje = 
+             `¡Hola VITAE! 👋%0A%0A` +
+             `*Nuevo Pedido:*%0A${listaWsp}%0A%0A` +
+             `*Cliente:* ${nombreCliente}%0A` +
+             `*Pago:* ${tipoDePago} ($${montoSeleccionado.toLocaleString('es-AR')})%0A%0A` +
+             `✅ Ya cargué el comprobante en la web.%0A` +
+             `📸 *A continuación te envío las fotos como "ARCHIVO" para mantener la máxima calidad.*`;
             
             const urlWsp = `https://wa.me/5492215111026?text=${mensaje}`;
 
@@ -1099,6 +1065,59 @@ function actualizarVisibilidadImantacion(nombreProducto) {
     }
 }
 
+function generarEspaciosFotos(cantidad) {
+    const fEspacio = document.getElementById("photoSpace");
+    const lChin = document.getElementById("polaroidChin");
+    const molde = document.getElementById("polaroidPreview");
+
+    if (!fEspacio || !lChin) return;
+
+    fEspacio.innerHTML = ""; 
+    fEspacio.classList.add("grid-strips");
+    fEspacio.style.aspectRatio = "auto"; 
+    fEspacio.style.backgroundColor = "transparent";
+    fEspacio.style.setProperty('background-color', 'transparent', 'important');
+
+    if (molde) {
+        molde.style.height = "auto"; 
+        molde.style.paddingBottom = "20px";
+    }
+
+    // Ajustamos el "mentón" y el gap según la cantidad
+    if (cantidad === 3) {
+        lChin.style.height = "50px"; 
+        fEspacio.style.gap = "15px"; 
+    } else {
+        lChin.style.height = "0px"; 
+        fEspacio.style.gap = "10px"; 
+    }
+
+    for (let i = 0; i < cantidad; i++) {
+        const slot = document.createElement("div");
+        // --- ESTOS SON LOS ESTILOS DEL CUADRADITO ---
+        slot.style.width = "100%";
+        slot.style.backgroundColor = "white";
+        slot.style.display = "flex";
+        slot.style.alignItems = "center";
+        slot.style.justifyContent = "center";
+        
+        // CAMBIO 1: Borde un poco más suave (opcional)
+        slot.style.border = "1px solid #e0e0e0"; 
+
+        // CAMBIO 2: ¡AQUÍ ESTÁ LA SOMBRA INTERNA!
+        // inset: Sombra interna, 0 0: Sin desplazamiento, 8px: Desenfoque, rgba: Color negro muy suave
+        slot.style.boxShadow = "inset 0 0 8px rgba(0,0,0,1)";
+        // Proporción según cantidad
+        if (cantidad === 3) {
+            slot.style.aspectRatio = "1 / 1.25"; 
+        } else {
+            slot.style.aspectRatio = "1 / 1"; 
+        }
+        slot.innerHTML = '<span style="font-size:8px; color:#ccc; opacity:0.5;">FOTO</span>'; 
+        fEspacio.appendChild(slot);
+    }
+}
+
 function ajustarMoldeSegunProducto(nombreProducto) {
     const molde = document.getElementById("polaroidPreview");
     const fotoEspacio = document.getElementById("photoSpace");
@@ -1145,17 +1164,23 @@ function ajustarMoldeSegunProducto(nombreProducto) {
         fotoEspacio.style.aspectRatio = "1.8 / 1"; 
         chin.style.height = "35px";
     } 
-    else if (nombre.includes("strips")) {
-        // EXCEPCIÓN: Margen de arriba igual a los costados (aprox 12px o 0.3cm)
-        molde.style.paddingTop = "12px"; 
-        
-        molde.style.width = "150px";
-        molde.style.aspectRatio = "4.5 / 14.5"; 
-        molde.style.height = "auto"; // Permite que la tira crezca según la cantidad de fotos
-        fotoEspacio.style.aspectRatio = "1 / 2.8"; // Muy alargada hacia abajo
-        chin.style.height = "25px";
-        molde.style.paddingBottom = "40px"; // Espacio extra de seguridad abajo
-    } 
+   else if (nombre.includes("strips")) {
+    molde.style.paddingTop = "12px"; 
+    molde.style.width = "150px";
+    molde.style.aspectRatio = "4.5 / 14.5"; 
+    molde.style.height = "auto"; 
+
+    // FUERZA EL MODO GRID DESDE EL INICIO
+    fotoEspacio.classList.add("grid-strips"); 
+    fotoEspacio.style.display = "grid"; 
+    
+    // Esto limpia el "TU FOTO" y prepara el espacio para las fotos
+    // Si sabes que por defecto son 3, puedes disparar la lógica de 3 fotos aquí
+    generarEspaciosFotos(3); 
+
+    chin.style.height = "25px";
+    molde.style.paddingBottom = "40px";
+    }
     else if (nombre.includes("cuadrada")) {
         molde.style.width = "250px";
         molde.style.aspectRatio = "8 / 10"; 
