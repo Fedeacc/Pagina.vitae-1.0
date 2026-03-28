@@ -521,14 +521,16 @@ if (addToCartBtn) {
         // Limpiamos el texto "$12.500" para que sea solo el número 12500
         let finalPrice = parseFloat(priceDisplay.textContent.replace("$", "").replace(/\./g, "").trim());
         
-        let finalName = viewTitle.textContent;
+        let finalName = viewTitle.textContent.trim();
         let finalImage = viewImage.src;
 
         // 2. Manejo de Nombre para el WhatsApp (Packs)
-        if (variantSelect && variantSelect.style.display !== "none") {
-            const selected = variantSelect.options[variantSelect.selectedIndex];
-            finalName += ` (${selected.textContent})`;
-        }
+        if (variantSelect && variantSelect.options.length > 0 && variantSelect.offsetParent !== null) {
+    const selected = variantSelect.options[variantSelect.selectedIndex];
+    if (selected) {
+        finalName += ` (${selected.textContent.trim()})`;
+    }
+}
 
         // 3. Detalle de Diseño
         let nombreDisenio = borderDisplay ? borderDisplay.textContent.trim() : "Sin diseño";
@@ -957,24 +959,31 @@ function recalcularPrecioTotal() {
     const titleElement = document.getElementById("viewTitle");
     const variantSelect = document.getElementById("variantSelect");
     const priceDisplay = document.getElementById("viewPrice");
-    const infoExtra = document.getElementById("info-extra-disenio"); // Nuevo elemento
+    const infoExtra = document.getElementById("info-extra-disenio");
 
-    if (!titleElement || !variantSelect || !variantSelect.options[variantSelect.selectedIndex]) return;
+    if (!titleElement || !priceDisplay) return;
 
-    // 1. PRECIO BASE
-    let precioFinal = parseFloat(variantSelect.value); 
+    let precioFinal = 0;
+    let cantidadSeleccionada = 1;
 
-    // 2. OBTENER CANTIDAD Y NOMBRE
-    const packText = variantSelect.options[variantSelect.selectedIndex].textContent;
-    const matchCantidad = packText.match(/\d+/); 
-    const cantidadSeleccionada = matchCantidad ? parseInt(matchCantidad[0]) : 1;
+    // 1. OBTENER PRECIO BASE (Si hay variantes usa el select, sino usa el precio del visor)
+    if (variantSelect && variantSelect.options.length > 0 && variantSelect.selectedIndex !== -1) {
+        precioFinal = parseFloat(variantSelect.value);
+        const packText = variantSelect.options[variantSelect.selectedIndex].textContent;
+        const matchCantidad = packText.match(/\d+/);
+        cantidadSeleccionada = matchCantidad ? parseInt(matchCantidad[0]) : 1;
+    } else {
+        // Para Combos y Cuadernos: Limpiamos el "$" y los "." del precio que ya está en pantalla
+        precioFinal = parseFloat(priceDisplay.textContent.replace("$", "").replace(/\./g, "").trim());
+    }
+
     const nombreProductoVisor = titleElement.textContent.trim().toLowerCase();
 
-    // 3. BUSCAR EXTRA DE DISEÑO EN LA TABLA
+    // 2. ADICIONAL POR DISEÑO (Solo si existe la tabla de precios para este producto)
     let adicionalDisenio = 0;
     const categoriaEncontrada = Object.keys(tablaDePrecios).find(key => key.toLowerCase() === nombreProductoVisor);
 
-    if (categoriaEncontrada) {
+    if (categoriaEncontrada && variantSelect) {
         const escalaPrecios = tablaDePrecios[categoriaEncontrada];
         const escalones = Object.keys(escalaPrecios).map(Number).sort((a, b) => b - a);
         const escalonCorrecto = escalones.find(e => cantidadSeleccionada >= e);
@@ -984,38 +993,31 @@ function recalcularPrecioTotal() {
         }
     }
 
-    // 4. MOSTRAR EL TEXTO DEL EXTRA (Tu pedido)
+    // Mostrar info extra solo si aplica
     if (infoExtra) {
-        if (adicionalDisenio > 0) {
+        if (adicionalDisenio > 0 && disenioTemporal !== "Sin diseño") {
             infoExtra.innerHTML = `Este pack con diseño cuesta un extra de: <b>$${adicionalDisenio.toLocaleString('es-AR')}</b>`;
             infoExtra.style.display = "block";
+            precioFinal += adicionalDisenio;
         } else {
             infoExtra.style.display = "none";
         }
     }
 
-    // 5. SUMAR AL TOTAL SI HAY DISEÑO ELEGIDO
-    const estadoActualDisenio = disenioTemporal ? disenioTemporal.toLowerCase() : "sin diseño";
-    if (estadoActualDisenio !== "sin diseño") {
-        precioFinal += adicionalDisenio;
-    }
-
-    // 6. RECARGO POR IMANTACIÓN (Se mantiene igual)
-    let costoImanUnitario = 0;
-    for (let nombreKey in PRECIOS_IMAN) {
-        if (nombreKey.toLowerCase() === nombreProductoVisor) {
-            costoImanUnitario = PRECIOS_IMAN[nombreKey];
-            break;
-        }
-    }
+    // 3. RECARGO POR IMANTACIÓN (Solo si el producto lo permite)
     if (tieneImantacion) {
+        let costoImanUnitario = 0;
+        for (let nombreKey in PRECIOS_IMAN) {
+            if (nombreKey.toLowerCase() === nombreProductoVisor) {
+                costoImanUnitario = PRECIOS_IMAN[nombreKey];
+                break;
+            }
+        }
         precioFinal += (cantidadSeleccionada * costoImanUnitario);
     }
 
-    // 7. MOSTRAR RESULTADO FINAL
-    if (priceDisplay) {
-        priceDisplay.textContent = `$${precioFinal.toLocaleString('es-AR')}`;
-    }
+    // 4. MOSTRAR RESULTADO FINAL
+    priceDisplay.textContent = `$${precioFinal.toLocaleString('es-AR')}`;
 }
 
 // Sincronizar: Si cambian el pack, que se recalcule el imán
@@ -1320,3 +1322,14 @@ function actualizarPrecioFinal() {
 
 // Forzamos que al cargar la página, la Polaroid sea la Común
 ajustarMoldeSegunProducto("comun");
+
+// Agregá esto al final de todo tu script.js
+document.addEventListener("DOMContentLoaded", () => {
+    const btnWsp = document.querySelector('.wsp-float');
+    if (btnWsp) {
+        // Lo sacamos de donde esté y lo pegamos directo al body para que nadie lo oculte
+        document.body.appendChild(btnWsp);
+        btnWsp.style.display = "flex";
+        console.log("Botón de WhatsApp rescatado y pegado al body 🚀");
+    }
+});
