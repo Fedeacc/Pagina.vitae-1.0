@@ -188,6 +188,11 @@ products.forEach(button => {
         const variantSelect = document.getElementById("variantSelect");
         const variantContainer = document.getElementById("variant-container");
 
+        // No importa qué producto sea, primero lo escondemos.
+        if (variantContainer) {
+         variantContainer.style.display = "none";
+        }
+
         if (variantsData && variantSelect) {
             variantContainer.style.display = "block";
             variantSelect.innerHTML = ""; 
