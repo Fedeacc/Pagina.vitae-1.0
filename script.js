@@ -11,7 +11,7 @@ window.addEventListener('load', () => {
 /* ===== ELEMENTOS GENERALES ===== */
 const tablaDePrecios = {
     "Polaroid Común": {
-        5: 1000,   // Precio total si lleva 5
+        5: 1000,   // Precio total si lleva 5 disenios
         15: 2500, // Precio total si lleva 15 
         30: 4000  // Precio total si lleva 30
     },
@@ -111,13 +111,14 @@ const btnDoneDesign = document.getElementById("btnDoneDesign");
 /* ===== VISOR DE PRODUCTO (VERSIÓN FINAL CORREGIDA) ===== */
 products.forEach(button => {
     button.addEventListener("click", () => {
-        resetDesign(); // Llamamos a la función de reseteo
+        resetDesign(); 
+        disenioTemporal = "Sin diseño";
         const card = button.closest(".product-card");
         if (!card) return;
 
         const simulationContainer = document.getElementById("simulationContainer");
         const borderContainer = document.getElementById("border-designs-container");
-        const toggleBtn = document.getElementById("toggleViewMode"); // El botón azul
+        const toggleBtn = document.getElementById("toggleViewMode"); 
         const borderOptions = document.getElementById("border-options");
         const borderLayer = document.getElementById("borderLayer");
         const nombreProducto = card.dataset.name || "";
@@ -125,50 +126,35 @@ products.forEach(button => {
         // ---CAPTURA DE IMÁGENES ---
         const galleryData = card.dataset.gallery; 
         const mainImage = card.dataset.image;
-
         if (galleryData && galleryData.trim() !== "") {
             currentImages = galleryData.split(",");
         } else {
-            currentImages = [mainImage]; // Si no hay galería, el array solo tiene la foto principal
+            currentImages = [mainImage]; 
         }
+        currentIndex = 0; 
 
-        currentIndex = 0; // Resetear siempre al inicio
-
-        // 1. Llamadas a funciones externas
-        if (typeof actualizarVisibilidadImantacion === "function") actualizarVisibilidadImantacion(nombreProducto);
-        if (typeof ajustarMoldeSegunProducto === "function") ajustarMoldeSegunProducto(nombreProducto);
-
-        // 2. Reseteo de estado
+        // 1. Reseteo de estado visual
         if (simulationContainer) simulationContainer.style.display = "none";
         if (borderContainer) borderContainer.style.display = "none";
         viewImage.style.display = "block";
         if (selectedBorderText) selectedBorderText.style.display = "none";
         document.querySelectorAll(".layout-btn").forEach(btn => btn.classList.remove("selected"));
+        
         const borderDisplay = document.getElementById("borderNameDisplay");
         if (borderDisplay) borderDisplay.textContent = "Sin diseño";
 
-        // 3. Carga de datos
+        // 2. Carga de datos básicos
         viewImage.src = card.dataset.image || "";
         viewTitle.textContent = card.dataset.name || "";
         viewPrice.textContent = card.dataset.price || "";
         viewDescription.innerHTML = card.dataset.description || "";
 
-        actualizarSlider();
-        // 4. LÓGICA CRÍTICA DE BORDES (Aquí está la magia)
-        const bordersData = card.dataset.borders; // Obtenemos el atributo
-
-        // Verificamos si existe el atributo y si tiene contenido real (no está vacío o solo espacios)
+        // 3. LÓGICA DE BORDES
+        const bordersData = card.dataset.borders;
         const tieneBordesConfigurados = bordersData && bordersData.trim() !== "";
-
         if (toggleBtn) {
-            if (tieneBordesConfigurados) {
-                // SI TIENE BORDES: Mostramos el botón azul
-                toggleBtn.style.display = "inline-block";
-                toggleBtn.textContent = `✨ Personalizar diseño`;
-            } else {
-                // NO TIENE BORDES: Ocultamos el botón azul COMPLETAMENTE
-                toggleBtn.style.display = "none";
-            }
+            toggleBtn.style.display = tieneBordesConfigurados ? "inline-block" : "none";
+            toggleBtn.textContent = `✨ Personalizar diseño`;
         }
 
         if (borderOptions) borderOptions.innerHTML = "";
@@ -177,21 +163,14 @@ products.forEach(button => {
             borderLayer.style.backgroundColor = "transparent";
         }
 
-        // Solo procesamos los thumbnails si hay bordes
         if (tieneBordesConfigurados && borderOptions) {
             bordersData.split(",").forEach((item, index) => {
                 const parts = item.split(":");
                 if (parts.length < 3) return;
                 const [nombre, urlMini, urlReal] = parts;
-
-                const wrapper = document.createElement("div");
-                wrapper.className = "thumb-wrapper";
-                wrapper.style.cssText = "text-align: center; width: 75px; display: inline-block; vertical-align: top; margin: 5px;";
-
                 const btnBorder = document.createElement("div");
                 btnBorder.className = "border-thumb"; 
                 btnBorder.style.backgroundImage = `url('${urlMini.trim()}')`;
-                
                 btnBorder.onclick = () => {
                     if (borderLayer) borderLayer.style.backgroundImage = `url('${urlReal.trim()}')`;
                     document.querySelectorAll(".border-thumb").forEach(b => b.classList.remove("selected"));
@@ -199,14 +178,12 @@ products.forEach(button => {
                     disenioTemporal = nombre.trim();
                     recalcularPrecioTotal();
                 };
-
-                wrapper.appendChild(btnBorder);
-                borderOptions.appendChild(wrapper);
+                borderOptions.appendChild(btnBorder);
                 if (index === 0) btnBorder.click();
             });
         }
 
-        // 5. Variantes (Packs)
+        // 4. VARIANTES (PACKS) - IMPORTANTE HACERLO ANTES DEL IMÁN
         const variantsData = card.dataset.variants;
         const variantSelect = document.getElementById("variantSelect");
         const variantContainer = document.getElementById("variant-container");
@@ -218,56 +195,29 @@ products.forEach(button => {
                 const partsV = optText.trim().split(":");
                 if(partsV.length < 3) return;
                 const [vNombre, vPrecio, vImg] = partsV;
-              const opt = document.createElement("option");
+                const opt = document.createElement("option");
                 opt.value = vPrecio;
                 opt.textContent = vNombre;
                 opt.dataset.img = vImg;
                 variantSelect.appendChild(opt);
             });
+            variantSelect.selectedIndex = 0; // Forzamos selección inicial
             variantSelect.onchange = () => {
                 const sel = variantSelect.options[variantSelect.selectedIndex];
                 viewPrice.textContent = `$${parseInt(sel.value).toLocaleString('es-AR')}`;
                 viewImage.src = sel.dataset.img;
                 recalcularPrecioTotal();
             };
-        } else if (variantContainer) {
-            variantContainer.style.display = "none";
         }
 
-        // 6. Layouts (Tiras/Strips)
-        const layoutData = card.dataset.layout;
-        const layoutContainer = document.getElementById("layout-container");
-        const layoutOptions = document.getElementById("layout-options");
+        // 5. AJUSTES FINALES Y LLAMADAS EXTERNAS (Ahora con datos cargados)
+        if (typeof ajustarMoldeSegunProducto === "function") ajustarMoldeSegunProducto(nombreProducto);
+        
+        // AQUÍ ESTÁ EL CAMBIO: El imán ahora puede leer el pack seleccionado arriba
+        if (typeof actualizarVisibilidadImantacion === "function") actualizarVisibilidadImantacion(nombreProducto);
+        
+        actualizarSlider();
 
-        if (layoutContainer && layoutOptions) {
-            if (!layoutData || layoutData.trim() === "") {
-                layoutContainer.style.display = "none";
-            } else {
-                layoutContainer.style.display = "block";
-                layoutOptions.innerHTML = ""; 
-                
-                layoutData.split(",").forEach((opt, index) => {
-                    const btnLayout = document.createElement("button");
-                    btnLayout.textContent = opt.trim();
-                    btnLayout.className = "layout-btn";
-                    
-                    // Dentro de layoutData.split(",").forEach...
-btnLayout.onclick = () => {
-    document.querySelectorAll(".layout-btn").forEach(b => b.classList.remove("selected"));
-    btnLayout.classList.add("selected");
-    
-    // Simplemente llamamos a la función nueva
-    const cantidad = opt.includes("3") ? 3 : 4;
-    generarEspaciosFotos(cantidad);
-};
-                    
-                    layoutOptions.appendChild(btnLayout);
-                    if (index === 0) setTimeout(() => btnLayout.click(), 100);
-                });
-            }
-        }
-
-        // 7. Abrir Visor
         if (productView) productView.style.display = "flex";
     });
 });
@@ -685,11 +635,24 @@ searchInput.addEventListener("input", (e) => {
                     </div>
                 `;
                 div.onclick = () => {
-                    match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    searchBar.style.display = "none";
-                    searchInput.value = "";
-                    searchSuggestions.style.display = "none";
-                };
+    // 1. Ir al producto
+    match.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // 2. RESET TOTAL del buscador
+    searchBar.style.display = "none";
+    searchSuggestions.style.display = "none";
+    searchSuggestions.innerHTML = ""; // Vaciamos el HTML para que no ocupe espacio
+    searchInput.value = "";
+    
+    // 3. RE-ACTIVAR EL MENÚ (Por si quedó bloqueado por otra función)
+    if (mobileMenu) {
+        mobileMenu.style.pointerEvents = "auto";
+        // Si el menú se cerró solo, nos aseguramos que el botón responda
+        menuBtn.style.pointerEvents = "auto";
+    }
+
+    console.log("Buscador cerrado y área liberada 🚀");
+};
                 searchSuggestions.appendChild(div);
             });
         } else {
@@ -995,7 +958,7 @@ function recalcularPrecioTotal() {
 
     // Mostrar info extra solo si aplica
     if (infoExtra) {
-        if (adicionalDisenio > 0 && disenioTemporal !== "Sin diseño") {
+        if (adicionalDisenio > 0 && disenioTemporal.toLowerCase().trim() !== "sin diseño") {
             infoExtra.innerHTML = `Este pack con diseño cuesta un extra de: <b>$${adicionalDisenio.toLocaleString('es-AR')}</b>`;
             infoExtra.style.display = "block";
             precioFinal += adicionalDisenio;
@@ -1021,49 +984,79 @@ function recalcularPrecioTotal() {
 }
 
 // Sincronizar: Si cambian el pack, que se recalcule el imán
-document.getElementById("variantSelect").addEventListener("change", recalcularPrecioTotal);
+document.getElementById("variantSelect").addEventListener("change", () => {
+    // 1. Recalcula el precio final del visor
+    recalcularPrecioTotal();
+    
+    // 2. Actualiza el texto del cartelito informativo del imán
+    const nombreActual = document.getElementById("viewTitle").textContent;
+    actualizarVisibilidadImantacion(nombreActual);
+});
 
 function actualizarVisibilidadImantacion(nombreProducto) {
     const magnetContainer = document.getElementById("magnet-option-container");
-    const hint = document.getElementById("magnet-price-hint"); // El cartelito del precio
+    const hint = document.getElementById("magnet-price-hint"); 
+    const variantSelect = document.getElementById("variantSelect");
+    
+    // Normalizamos para evitar errores de tildes
     const nombreNormalizado = nombreProducto.toLowerCase();
 
     const esPolaroid = nombreNormalizado.includes("común") || 
+                       nombreNormalizado.includes("comun") || 
                        nombreNormalizado.includes("extralarge") || 
                        nombreNormalizado.includes("strips") || 
                        nombreNormalizado.includes("cuadrada");
 
-    if (magnetContainer) {
-        if (esPolaroid) {
-            magnetContainer.style.display = "block";
+    if (magnetContainer && esPolaroid) {
+        magnetContainer.style.display = "block";
+        tieneImantacion = false; 
+
+        // --- CÁLCULO DEL PRECIO PARA EL CARTELITO (HINT) ---
+        if (hint) {
+            hint.style.display = "block";
             
-            // --- RESETEO A "NO" ---
-            tieneImantacion = false;
-            
-            const btnYes = document.getElementById("magnet-yes");
-            const btnNo = document.getElementById("magnet-no");
-            
-            if (btnYes) btnYes.classList.remove("active-yes");
-            if (btnNo) {
-                btnNo.classList.remove("active-no");
-                btnNo.classList.add("active-no");
+            // 1. Buscamos el precio unitario del imán según el producto
+            let precioUnidadIman = 0;
+            for (let key in PRECIOS_IMAN) {
+                // Comparamos nombres normalizados para no fallar
+                if (nombreNormalizado.includes(key.toLowerCase())) {
+                    precioUnidadIman = PRECIOS_IMAN[key];
+                    break;
+                }
             }
 
-            // FORZAMOS QUE EL CARTELITO SE VEA SIEMPRE
-            if (hint) {
-                hint.style.display = "block"; // <--- ESTO ES CLAVE
+            // 2. Obtenemos la cantidad de fotos del pack seleccionado actualmente
+            let cantidad = 1;
+            if (variantSelect && variantSelect.options.length > 0) {
+                const packText = variantSelect.options[variantSelect.selectedIndex].textContent;
+                const match = packText.match(/\d+/); // Extrae el número del texto (ej: "Pack x15" -> 15)
+                cantidad = match ? parseInt(match[0]) : 1;
             }
-            
-            // Calculamos el precio inmediatamente
-            setTimeout(() => {
-                recalcularPrecioTotal();
-            }, 50);
 
-        } else {
-            magnetContainer.style.display = "none";
-            if (hint) hint.style.display = "none";
-            tieneImantacion = false;
+            // 3. ACTUALIZAMOS EL TEXTO DEL CARTELITO
+            const totalImantado = precioUnidadIman * cantidad;
+            if (totalImantado > 0) {
+                hint.innerHTML = `Sumar imantado completo por: <b>$${totalImantado.toLocaleString('es-AR')}</b>`;
+            } else {
+                hint.innerHTML = `Sumar imantado completo`; // Por si algo falla en el cálculo
+            }
         }
+
+        // Reseteo de botones visuales
+        const btnYes = document.getElementById("magnet-yes");
+        const btnNo = document.getElementById("magnet-no");
+        if (btnYes) btnYes.classList.remove("active-yes");
+        if (btnNo) {
+            btnNo.classList.remove("active-no");
+            btnNo.classList.add("active-no");
+        }
+        
+        setTimeout(() => { recalcularPrecioTotal(); }, 50);
+
+    } else {
+        if (magnetContainer) magnetContainer.style.display = "none";
+        if (hint) hint.style.display = "none";
+        tieneImantacion = false;
     }
 }
 
@@ -1154,7 +1147,7 @@ function ajustarMoldeSegunProducto(nombreProducto) {
         borderLayer.style.backgroundImage = "none";
     }
 
-    if (nombre.includes("comun")) {
+    if (nombre.includes("común")) {
         molde.style.width = "220px"; 
         molde.style.aspectRatio = "5.5 / 8.5";
         fotoEspacio.style.aspectRatio = "1 / 1.1"; // Un poquito más alta la foto
