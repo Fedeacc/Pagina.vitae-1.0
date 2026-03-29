@@ -53,7 +53,9 @@ body {
 /* HERO */
 .hero {
   position: relative;
-  height: 70vh;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
   overflow: hidden;
 }
 
@@ -61,23 +63,38 @@ body {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .hero-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0,0,0,.35);
-  color: #d8dadc;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 1rem;
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    z-index: 2;
+}
+
+/* 2. EL TEXTO (Solo estética de la letra) */
+.hero-overlay p {
+    font-family: 'Unica One', sans-serif;
+    font-size: 1.1rem;      /* Ajustado para que no sea gigante en celu */
+    font-weight: 400;
+    letter-spacing: 1px;
+    line-height: 1.2;
+    color: #d8dadc;
+    margin: 0;             /* Importante: quita márgenes para que el flex lo centre bien */
 }
 
 .hero-overlay h1 {
   font-size: 2rem;
+  margin-bottom: 5px;
+    color: #fff;
 }
 
 .logo {
@@ -138,8 +155,8 @@ body {
 /* Títulos de los productos en la tienda */
 .product-card h3, 
 .product-card .name {
-    font-family: 'Rajdhani', sans-serif; /* Fuentes modernas y circulares */
-    font-size: 1.5rem;           /* Tamaño jerárquico */
+    font-family: 'Unica One', sans-serif; 
+    font-size:2rem;           /* Tamaño jerárquico */
     font-weight: 850;            /* Bien grueso (Bold) */
     margin-bottom: 5px;          /* Espacio con el precio */
     line-height: 1.2;            /* Ajuste de altura de línea para que no se vea disperso */
@@ -184,9 +201,11 @@ footer {
   .hero-overlay h1 {
     font-size: 3rem;
   }
-
   .products {
     grid-template-columns: repeat(3, 1fr);
+  }
+  .hero {
+    height: 70vh; /* Un poco más petiso en PC para que se vean los productos abajo */
   }
 }
 
