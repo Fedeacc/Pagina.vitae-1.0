@@ -1304,3 +1304,117 @@ html {
     font-size: 16px;       /* Tamaño de la letra */
     font-weight: 500;
 }
+
+.menu-categorias {
+    position: sticky;
+    top: 0; /* Se pega al borde superior de la pantalla */
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.9); /* Blanco con transparencia */
+    backdrop-filter: blur(5px); /* Efecto de desenfoque muy premium */
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+
+.categorias-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: auto; /* Permite deslizar con el dedo en móviles */
+    white-space: nowrap; /* Evita que los botones se amontonen abajo */
+    padding: 5px 20px;
+    scrollbar-width: none; /* Oculta la barra en Firefox */
+}
+
+/* Ocultar barra de scroll en Chrome/Safari */
+.categorias-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-categorias {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    
+    /* Configuración que pediste */
+    padding: 20px; 
+    display: flex;
+    justify-content: center;
+    width: 90%; /* Corregido con % */
+    max-width: 1050px;
+    margin: 20px auto;
+    box-sizing: border-box;
+    overflow-wrap: break-word;
+    
+    /* Estética igual al panel de Bienvenida */
+    background: #ffffff;
+    border-radius: 15px; /* Mismo redondeado */
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.04); /* Misma sombra sutil */
+    border: 1px solid #f0f0f0;
+}
+
+.cat-item {
+    text-decoration: none;
+    color: #112a4a;           /* Tu azul oscuro */
+    font-size: 0.75rem;       /* Un toque más pequeño para que entren todos */
+    font-weight: 700;         /* Más grueso para que resalte */
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    
+    /* EL RECUADRO QUE RESALTA */
+    background-color: #f0f4f8; /* Un azul/gris muy clarito de fondo */
+    padding: 10px 18px;       /* Espacio interno para que parezca cápsula */
+    border-radius: 50px;      /* Bordes totalmente redondeados (estilo pastilla) */
+    border: 1px solid #d1d9e6; /* Borde sutil para dar definición */
+    
+    /* EFECTO DE BOTÓN */
+    display: inline-block;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); /* Transición más fluida */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05); /* Sombra pequeña individual */
+}
+
+/* EFECTO AL PASAR EL MOUSE (HOVER) */
+.cat-item:hover {
+    background-color: #112a4a; /* Se invierte: fondo oscuro */
+    color: #ffffff;            /* Texto blanco */
+    transform: translateY(-3px); /* "Salta" hacia arriba */
+    box-shadow: 0 5px 15px rgba(17, 42, 74, 0.2); /* Sombra más fuerte al tocarlo */
+    border-color: #112a4a;
+}
+
+/* EFECTO AL HACER CLIC (ACTIVE) */
+.cat-item:active {
+    transform: translateY(-1px); /* Baja un poquito, como si lo hundieras */
+    filter: brightness(0.9);
+}
+
+@media (max-width: 600px) {
+    .cat-item {
+        font-size: 0.7rem;    /* Letra más chica */
+        padding: 8px 14px;    /* Menos relleno */
+        letter-spacing: 1px;  /* Menos espacio entre letras */
+        flex-shrink: 0;       /* OBLIGATORIO: Evita que el botón se "apriete" y deforme */
+    }
+
+    .menu-categorias {
+        width: 95%;           /* Un poco más ancho en celular para aprovechar espacio */
+        padding: 10px;        /* Menos margen interno del contenedor */
+    }
+}
+
+.categorias-wrapper {
+    display: flex;
+    gap: 12px;           /* Espacio entre botones */
+    overflow-x: auto;    /* ESTO permite el scroll lateral */
+    scroll-behavior: smooth;
+    padding: 10px 5px;   /* Espacio para que la sombra no se corte */
+    
+    /* OCULTAR LA BARRA DE SCROLL (Para que se vea limpio) */
+    scrollbar-width: none;       /* Firefox */
+    -ms-overflow-style: none;    /* IE/Edge */
+}
+
+.categorias-wrapper::-webkit-scrollbar {
+    display: none;               /* Chrome, Safari, Opera */
+}
