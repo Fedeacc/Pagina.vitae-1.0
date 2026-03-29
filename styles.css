@@ -41,7 +41,7 @@ html, body {
     border-radius: 15px;       /* Bordes redondeados modernos */
     padding: 20px;     /* Espaciado interno generoso */
     width: 100%;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); /* Sombra suave para dar relieve */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); /* Sombra suave para dar relieve */
     text-align: center;       /* Centra el texto adentro */
 }
 
@@ -128,7 +128,10 @@ html, body {
 }
 
 .section h2 {
-  margin-bottom: 1rem;
+  margin-top: -20px;      /* Esto reducirá el espacio con el producto anterior */
+  margin-bottom: 0.5rem; /* Reducimos un poco el espacio con lo que sigue */
+  color: #112a4a;
+  text-align: center;
 }
 
 /* PRODUCTOS */
@@ -337,10 +340,6 @@ footer {
   stroke-width: 2;
 }
 
-.section h2 {
-  color: #112a4a;
-  text-align: center;
-}
 .section p {
   text-align: center;
   line-height: 1.6;
@@ -1068,8 +1067,8 @@ html {
     display: block !important;
     width: 100% !important;
     /* Esto crea el espacio real entre el producto de arriba y el título */
-    padding-top: 100px !important; 
-    margin-top: 50px !important;
+    padding-top: 40px !important; 
+    margin-top: 20px !important;
     border-top: 1px solid #eee !important;
 }
 
@@ -1285,4 +1284,23 @@ html {
     z-index: 4100 !important;
     cursor: pointer !important;
     pointer-events: auto !important;
+}
+
+.location-container {
+    display: flex;         /* Pone los elementos en fila */
+    align-items: center;    /* Los centra verticalmente entre sí */
+    gap: 10px;             /* Espacio exacto entre el logo y el texto */
+    font-family: Arial, sans-serif;
+}
+
+.location-icon {
+    fill: #4285F4;         /* Tu color personalizado */
+    width: 20px;           /* Ajusta el tamaño del logo */
+    height: auto;
+}
+
+.location-text {
+    color: #333;           /* Color del texto */
+    font-size: 16px;       /* Tamaño de la letra */
+    font-weight: 500;
 }
