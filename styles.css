@@ -245,6 +245,7 @@ footer {
     background: rgba(2, 28, 62, 0.8); /* Un poco más sólido para que no trasluzca tanto */
     z-index: 4000 !important; /* Valor alto para mandar siempre */
     box-shadow: 0 2px 10px rgba(0,0,0,.1);
+    transition: transform 0.3s ease-in-out;
 }
 
 /* cuando se oculta */
@@ -375,6 +376,7 @@ z-index:2000;
 }
 
 .product-view-content{
+margin-top: 56px; /* Para que no quede pegado a la barra superior */   
 background:#fdfdfd;
 border-radius:14px;
 max-width:600px;

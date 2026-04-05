@@ -1331,3 +1331,21 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Botón de WhatsApp rescatado y pegado al body 🚀");
     }
 });
+
+let lastScrollY = window.scrollY;
+const topBarElement = document.querySelector(".top-bar");
+
+window.addEventListener("scroll", () => {
+    const currentScrollY = window.scrollY;
+
+    if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // SCROLL HACIA ABAJO: Escondemos la barra
+        topBarElement.classList.add("hide");
+    } else {
+        // SCROLL HACIA ARRIBA: Mostramos la barra
+        topBarElement.classList.remove("hide");
+    }
+
+    // Actualizamos la posición para la próxima comparación
+    lastScrollY = currentScrollY;
+});
